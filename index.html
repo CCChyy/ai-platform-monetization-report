@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>主流 AI 平台开发者盈利模式比较研究（截至 2026-08-04）</title>
+<style>
+:root{
+  --bg:#ffffff;
+  --surface:#f7f8fa;
+  --surface-2:#eef1f5;
+  --border:#dfe3e8;
+  --border-strong:#c4cad2;
+  --text:#1a1d21;
+  --text-2:#4a5158;
+  --text-3:#767d85;
+  --accent:#1f4e79;
+  --accent-soft:#e8f0f7;
+  --red:#b3261e;
+  --amber:#8a6100;
+  --green:#1e6b3a;
+  --purple:#5b3a86;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:15px;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+.skip-link{position:absolute;left:16px;top:-48px;z-index:20;background:var(--accent);color:#fff;padding:8px 14px;border-radius:0 0 6px 6px;text-decoration:none;font-weight:600}
+.skip-link:focus{top:0}
+.wrap{max-width:1180px;margin:0 auto;padding:48px 32px 96px}
+header.doc{border-bottom:3px solid var(--accent);padding-bottom:28px;margin-bottom:8px}
+h1{font-size:30px;line-height:1.35;margin:0 0 14px;letter-spacing:-.3px}
+.subtitle{color:var(--text-2);font-size:15px;margin:0 0 18px}
+.author{color:var(--text-2);font-size:14px;font-weight:600;margin:0 0 16px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 10px;font-size:12.5px}
+.meta span{background:var(--surface-2);color:var(--text-2);padding:4px 10px;border-radius:4px;border:1px solid var(--border)}
+
+nav.toc{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px 26px;margin:32px 0 44px}
+nav.toc h3{margin:0 0 12px;font-size:14px;color:var(--text-3);letter-spacing:1px;font-weight:600}
+nav.toc ol{margin:0;padding-left:20px;columns:2;column-gap:36px}
+nav.toc li{margin:5px 0;break-inside:avoid}
+nav.toc a{color:var(--accent);text-decoration:none}
+nav.toc a:hover{text-decoration:underline}
+
+h2{font-size:22px;margin:56px 0 8px;padding-bottom:10px;border-bottom:2px solid var(--border-strong);letter-spacing:-.2px}
+h2 .num{color:var(--accent);font-weight:700;margin-right:10px}
+h3{font-size:17.5px;margin:36px 0 10px;color:var(--accent)}
+h4{font-size:15px;margin:22px 0 6px;color:var(--text)}
+p{margin:10px 0}
+ul,ol{margin:8px 0;padding-left:22px}
+li{margin:5px 0}
+
+.lead{background:var(--accent-soft);border-left:4px solid var(--accent);padding:16px 20px;border-radius:0 6px 6px 0;margin:18px 0;font-size:14.5px}
+.note{background:#fff8e6;border-left:4px solid #d0a020;padding:14px 18px;border-radius:0 6px 6px 0;margin:16px 0;font-size:13.5px;color:#5c4600}
+.warn{background:#fdeeed;border-left:4px solid var(--red);padding:14px 18px;border-radius:0 6px 6px 0;margin:16px 0;font-size:13.5px;color:#7a1a15}
+
+/* source level badges */
+.s1,.s2,.s3,.s0{display:inline-block;font-size:11px;line-height:1.5;padding:1px 6px;border-radius:3px;font-weight:600;vertical-align:1px;white-space:nowrap}
+.s1{background:#e3f1e8;color:var(--green);border:1px solid #bcdcc8}
+.s2{background:#e7eefa;color:#1f4e79;border:1px solid #c2d4ec}
+.s3{background:#fdeeed;color:var(--red);border:1px solid #f0c7c4}
+.s0{background:#eceef1;color:var(--text-3);border:1px solid var(--border)}
+
+table{width:100%;border-collapse:collapse;margin:18px 0;font-size:12.5px;line-height:1.6}
+th,td{border:1px solid var(--border);padding:9px 10px;text-align:left;vertical-align:top}
+th{background:var(--surface-2);font-weight:600;font-size:12px;color:var(--text)}
+tbody tr:nth-child(even){background:#fafbfc}
+td.plat{font-weight:600;color:var(--accent);white-space:nowrap}
+.tbl-scroll{overflow-x:auto;border:1px solid var(--border);border-radius:6px;margin:20px 0}
+.tbl-scroll table{margin:0;border:none;min-width:1900px}
+.tbl-scroll th:first-child,.tbl-scroll td:first-child{position:sticky;left:0;background:var(--surface-2);z-index:2;box-shadow:1px 0 0 var(--border)}
+.tbl-scroll tbody td:first-child{background:#fff}
+
+.card{border:1px solid var(--border);border-radius:8px;padding:0;margin:26px 0;overflow:hidden}
+.card>.hd{background:var(--surface-2);padding:12px 20px;border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;align-items:baseline;gap:12px}
+.card>.hd .name{font-size:17px;font-weight:700;color:var(--accent)}
+.card>.hd .tag{font-size:11.5px;background:#fff;border:1px solid var(--border-strong);color:var(--text-2);padding:2px 8px;border-radius:11px}
+.card>.bd{padding:16px 22px 20px}
+.card .bd table{font-size:12.5px}
+
+dl.kv{margin:10px 0;display:grid;grid-template-columns:max-content 1fr;gap:6px 18px;font-size:13.5px}
+dl.kv dt{color:var(--text-3);font-weight:600;white-space:nowrap}
+dl.kv dd{margin:0}
+
+code{background:var(--surface-2);padding:1px 5px;border-radius:3px;font-size:12.5px;font-family:"SF Mono",Menlo,Consolas,monospace}
+a{color:var(--accent);word-break:break-all}
+.toc a{word-break:normal}
+a:focus-visible,summary:focus-visible,button:focus-visible{outline:3px solid #e0a500;outline-offset:3px;border-radius:3px}
+.src{font-size:11.5px;color:var(--text-3)}
+.src a{color:var(--text-3);text-decoration:underline}
+
+.und{color:var(--text-3);font-style:italic}
+.hl{background:#fff3bf;padding:0 3px;border-radius:2px}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:900px){.grid2{grid-template-columns:1fr}nav.toc ol{columns:1}.wrap{padding:28px 18px 64px}}
+
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:12.5px;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:12px 18px;margin:16px 0}
+
+footer.doc{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);font-size:12.5px;color:var(--text-3)}
+
+.thesis{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:22px 26px;margin:20px 0}
+.thesis h4{margin-top:0;color:var(--accent);font-size:15.5px}
+.formula{background:#fff;border:1px dashed var(--border-strong);border-radius:6px;padding:12px 16px;margin:12px 0;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:12.5px;color:var(--text-2);overflow-x:auto}
+.summary{background:linear-gradient(135deg,#f3f7fb 0%,#f9fbfd 100%);border:1px solid #cbdbea;border-radius:10px;padding:22px 26px;margin:28px 0 40px}
+.summary h2{margin:0 0 10px;padding:0;border:0;font-size:20px}
+.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.summary-item{background:#fff;border:1px solid var(--border);border-radius:7px;padding:13px 15px;font-size:13.5px;line-height:1.65}
+.summary-item b{display:block;color:var(--accent);margin-bottom:4px}
+.reading-tools{display:flex;gap:8px;align-items:center;position:fixed;right:20px;bottom:20px;z-index:10}
+.reading-tools button{border:1px solid var(--border-strong);background:#fff;color:var(--accent);border-radius:999px;padding:8px 12px;box-shadow:0 3px 12px rgba(26,29,33,.12);cursor:pointer;font:inherit;font-size:12px}
+#progress{position:fixed;left:0;top:0;height:3px;width:0;background:var(--accent);z-index:30;transition:width .08s linear}
+@media print{
+  @page{size:A4;margin:16mm 14mm}
+  body{font-size:11px}
+  .wrap{max-width:none;padding:0}
+  nav.toc,.reading-tools,#progress,.skip-link{display:none}
+  .tbl-scroll{overflow:visible}
+  .tbl-scroll table{min-width:0;font-size:8px}
+  thead{display:table-header-group}
+  tr{break-inside:avoid}
+  h2{page-break-after:avoid}
+  .card{page-break-inside:avoid}
+}
+@media(max-width:900px){.summary-grid{grid-template-columns:1fr}.reading-tools{right:12px;bottom:12px}.wrap{padding-top:28px}}
+</style>
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+<a class="skip-link" href="#content">跳转到正文</a>
+<div class="wrap">
+
+<header class="doc">
+  <h1>主流 AI 平台开发者盈利模式比较研究</h1>
+  <p class="subtitle">API 应用 · 平台内应用市场 · 积分型机器人市场 · 企业交付 · 开源衍生服务：五类商业模式的实证比较与纵向定价关系分析</p>
+  <p class="author">作者：陈汇元　南开大学经济学院　｜　WorkBuddy 参与</p>
+  <div class="meta">
+    <span>检索截止日：2026-08-04</span>
+    <span>覆盖平台：8 家主体 + 3 家对照</span>
+    <span>来源等级：① 官方一手 / ② 二级 / ③ 三级存疑</span>
+    <span>口径原则：注册开发者 ≠ 付费开发者 ≠ 企业客户 ≠ 用户数 ≠ 应用数 ≠ 调用量</span>
+  </div>
+</header>
+
+<nav class="toc" aria-label="文档目录">
+  <h3>目 录</h3>
+  <ol>
+    <li><a href="#s0">研究口径与来源分级说明</a></li>
+    <li><a href="#s1">第一部分：横向比较总表</a></li>
+    <li><a href="#s1b">商业模式五分类归属表</a></li>
+    <li><a href="#s2">第二部分：分平台数据卡</a></li>
+    <li><a href="#p-openai">2.1 OpenAI</a></li>
+    <li><a href="#p-anthropic">2.2 Anthropic</a></li>
+    <li><a href="#p-deepseek">2.3 DeepSeek</a></li>
+    <li><a href="#p-bailian">2.4 阿里云百炼 / 通义千问</a></li>
+    <li><a href="#p-ark">2.5 火山方舟 / 豆包 / 扣子</a></li>
+    <li><a href="#p-qianfan">2.6 百度千帆 / 文心</a></li>
+    <li><a href="#p-zhipu">2.7 智谱 BigModel</a></li>
+    <li><a href="#p-poe">2.8 Poe</a></li>
+    <li><a href="#p-ctrl">2.9 对照组：OpenRouter / Hugging Face / Character.AI</a></li>
+    <li><a href="#s3">第三部分：学术化总结</a></li>
+    <li><a href="#s4">附录 A：未公开指标清单与替代指标</a></li>
+    <li><a href="#s5">附录 B：被证伪与剔除的流传数据</a></li>
+    <li><a href="#s6">附录 C：主要一手来源索引（超链接）</a></li>
+  </ol>
+</nav>
+
+<main id="content">
+<section class="summary" aria-labelledby="summary-title">
+  <h2 id="summary-title">执行摘要</h2>
+  <p>本研究聚焦主流 AI 平台上开发者如何获得收入、承担成本并实现商业化，比较 API 应用、平台内应用市场、积分型机器人市场、企业交付和开源衍生服务五类盈利模式。核心问题是：开发者的钱从哪里来、平台如何收费或分成，以及平台的定价和分发规则如何影响开发者利润。</p>
+  <div class="summary-grid">
+    <div class="summary-item"><b>收入来源</b>开发者主要通过自有产品订阅、按次收费、企业项目、实施与运维、模板销售、广告线索和开源衍生服务获得收入。</div>
+    <div class="summary-item"><b>成本与利润</b>Token、模型调用、算力、部署、获客、合规和售后是主要成本。API 模式下平台通常先从上游收取费用，开发者再自行承担下游经营风险。</div>
+    <div class="summary-item"><b>平台分成</b>只有掌握支付结算、担保交易、广告或积分体系的平台，才具备稳定分配开发者收入的能力；流量和分发确定性往往比名义分成比例更重要。</div>
+  </div>
+</section>
+
+<!-- ============ 0 ============ -->
+<h2 id="s0"><span class="num">0</span>研究口径与来源分级说明</h2>
+
+<div class="legend">
+  <span><span class="s1">①</span> 官方一手：平台官网、帮助中心、开发者文档、定价页、法律条款、财报公告、招股书、政府采购公告</span>
+  <span><span class="s2">②</span> 二级：交易所文件转述、主流财经媒体（证券时报、上海证券报、每经、TechCrunch、VentureBeat、Reuters）、IDC/弗若斯特沙利文等机构</span>
+  <span><span class="s3">③</span> 三级：自媒体、SEO 聚合站、AI 生成内容农场——仅在无更好来源时列出并明确标注存疑</span>
+  <span><span class="s0">⊘</span> 未公开 / 未检索到公开数据</span>
+</div>
+
+<div class="note">
+<b>口径纪律（贯穿全文）</b>：<br>
+① <b>不以消费者用户数代替开发者数量</b>。ChatGPT 9 亿周活、豆包 3.45 亿 MAU 均属消费者口径，与"开发者数量"无关，在表中分列。<br>
+② <b>不以云业务总收入代替开发者业务收入</b>。阿里云智能 416 亿元/季、百度 AI 云 88 亿元/季均为大盘口径，不能推导开发者付费规模。<br>
+③ <b>"注册开发者"与"付费开发者"严格分列</b>。智谱"4500 万开发者"为注册口径，其"GLM Coding Plan 付费开发者 15 万"才是付费口径，两者相差 300 倍。<br>
+④ <b>不据传闻推算</b>。凡官方未披露的分成比例、收入总额，一律标注 <span class="s0">⊘ 未公开</span>，附录 B 列出被剔除的流传数字。<br>
+⑤ <b>Token 调用量 ≠ 生态收入</b>。火山 180 万亿 tokens/日与其 MaaS 营收（IDC 口径全市场 30.7 亿元/年）之间存在数量级断裂，见第三部分讨论。
+</div>
+
+<!-- ============ 1 ============ -->
+<h2 id="s1"><span class="num">1</span>第一部分：横向比较总表</h2>
+
+<p class="src">表格较宽，可横向滚动；首列固定。所有条目均标注来源等级与数据日期。</p>
+
+<div class="tbl-scroll">
+<table>
+<thead>
+<tr>
+  <th style="min-width:120px">平台</th>
+  <th style="min-width:150px">商业模式</th>
+  <th style="min-width:210px">开发者收入来源</th>
+  <th style="min-width:210px">API / 平台费用（开发者付出）</th>
+  <th style="min-width:190px">开发者承担的成本</th>
+  <th style="min-width:170px">定价权</th>
+  <th style="min-width:200px">平台分成机制</th>
+  <th style="min-width:200px">消费者额度能否用于第三方应用</th>
+  <th style="min-width:250px">开发者数据（官方口径）</th>
+  <th style="min-width:110px">数据日期</th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+  <td class="plat">OpenAI</td>
+  <td>API 应用模式 <br>+ 平台内应用市场（发育中）</td>
+  <td>① 自有产品订阅/按次收费（站外结算）<br>② 实体商品佣金（ACP，商家侧）<br>③ 无平台货币化分成 <span class="s0">⊘</span></td>
+  <td>按 token 计费：GPT-5.6-sol 输入 $1 / 输出 $8 每百万 token，缓存输入 $0.50；Batch −50%；Fast mode 加价；Web search $10/千次；File search $2.5/千次 <span class="s1">①</span></td>
+  <td>输入/输出 token、缓存写入、工具调用费、自有服务器与 MCP 后端、获客、合规（隐私政策、审核）、售后</td>
+  <td><b>完全自主</b>。官方文档："开发者自行选择如何货币化"，推荐 external checkout，"pricing, payments, subscriptions, and fulfillment" 全部在开发者自有域名完成 <span class="s1">①</span></td>
+  <td><b>官方文档未规定任何分成比例</b> <span class="s0">⊘</span>。ACP/Instant Checkout 对商家收 "small fee"，官方未量化；媒体称约 4%（未获官方确认）<span class="s2">②</span></td>
+  <td><b>不能</b>。ChatGPT Plus/Pro/Business/Enterprise 订阅不含 API 访问，API 独立计费；第三方 App 收费走开发者自有支付通道，与订阅额度完全隔离 <span class="s1">①</span></td>
+  <td>注册开发者 <b>400 万</b>；企业客户 <b>100 万</b>；ChatGPT for Work 席位 <b>700 万</b>→付费企业用户 <b>900 万</b>；API 处理量 60 亿→<b>150 亿 tokens/分钟</b>。<br><span class="und">GPTs 数量、Apps 数量、开发者收入总额均 <span class="s0">⊘</span></span></td>
+  <td>2025-10-06<br>2025-11-05<br>2026-03-31 <span class="s1">①</span></td>
+</tr>
+
+<tr>
+  <td class="plat">Anthropic</td>
+  <td>API 应用模式<br>+ 企业采购承诺额度导流</td>
+  <td>① 自有产品收入（完全站外）<br>② 企业采购（Claude Marketplace 伙伴，收入来自自身定价）<br>③ 无平台分成 <span class="s0">⊘</span></td>
+  <td>Opus 5 $5/$25、Sonnet 5 $2/$10（2026-09-01 恢复 $3/$15）、Haiku 4.5 $1/$5 每百万 token；缓存读取 0.1×，写入 1.25×/2×；Batch −50%；1M 上下文不加价。席位：Pro $20、Max $100 起、Team $25/$125、Enterprise $20/席+用量 <span class="s1">①</span></td>
+  <td>token、缓存写入、席位费、自有算力与后端、获客、合规、运维</td>
+  <td><b>完全自主</b>。商用条款允许"以 Claude 驱动客户自有产品与服务"，<b>无任何对终端定价的限制</b>；但<b>未经明示批准不得转售服务</b> <span class="s1">①</span></td>
+  <td><b>明确不存在</b>。Agent Skills 首发合作方案中官方表态："<i>There are no revenue-sharing arrangements at this time.</i>" <span class="s2">②</span>；Plugin marketplace 为自托管 git 仓库，条款全文无分成字段 <span class="s1">①</span>。<br>反向存在<b>渠道分成</b>：经 AWS Bedrock 等间接渠道约付 20% <span class="s2">②</span></td>
+  <td><b>不能</b>。Pro/Max/Team 订阅额度（5 小时滚动窗口 + 周上限）仅覆盖 Claude 自有界面与 Claude Code；耗尽后可开通 usage credits 按 API 费率续用。第三方产品不接入该额度池 <span class="s1">①</span></td>
+  <td>run-rate <b>$140 亿</b>；年消费 &gt;$10 万客户一年增 <b>7 倍</b>；年消费 &gt;$100 万客户 <b>&gt;500 家</b>；Claude Code run-rate <b>&gt;$25 亿</b>，企业占其收入一半以上；约 <b>4%</b> 全球 GitHub 公开 commits 由 Claude Code 撰写。<br><span class="und">API 注册/付费开发者数量 <span class="s0">⊘</span></span></td>
+  <td>Series G 公告<br>2026 年内 <span class="s1">①</span></td>
+</tr>
+
+<tr>
+  <td class="plat">DeepSeek</td>
+  <td>开源模型衍生服务模式<br>（平台放弃生态价值捕获）</td>
+  <td>① 云厂商托管服务费<br>② 私有化一体机硬件销售<br>③ SI 项目实施费 / 运维费<br>④ 自建产品收费<br><b>全部发生在平台之外</b></td>
+  <td>v4-flash：缓存命中 0.02 / 未命中 1 / 输出 2 元每百万 token；v4-pro：0.025 / 3 / 6 元。模型权重<b>免费</b>（MIT）<span class="s1">①</span><br>已公告将改为<b>高峰时段 2 倍</b>峰谷定价 <span class="s1">①</span></td>
+  <td>若走 API：token 费；若自部署：<b>全部算力成本</b>（GPU 采购/租赁、电力、运维）、模型微调、应用开发、获客、合规、售后</td>
+  <td><b>完全自主，无任何限制</b>。License FAQ 明示："DeepSeek 不会主张开发者在上述使用中获得的任何收益、利益"，无需申请或登记 <span class="s1">①</span></td>
+  <td><b>不存在</b>，且为制度性放弃。无应用市场、无插件目录、无技能商店 <span class="s1">①</span></td>
+  <td><b>不适用</b>。DeepSeek 无消费者订阅额度体系，App 免费</td>
+  <td><span class="und">开发者数量、付费开发者数量、企业客户数、API 收入、日均 token 处理量<b>全部 <span class="s0">⊘</span></b></span><br>唯一官方量化披露：2025-02-27~28 窗口，V3/R1 推理峰值 278 节点、均值 226.75 节点，假定 GPU 租金 $2/h 则成本 $87,072/天、理论收入 $562,027/天、<b>理论成本利润率 545%</b>，缓存命中率 56.3%；官方同时声明"实际没有这么多收入"</td>
+  <td>2025-03-01 <span class="s2">②</span><br>定价 2026-08-04 <span class="s1">①</span></td>
+</tr>
+
+<tr>
+  <td class="plat">阿里云百炼<br>/ 通义千问</td>
+  <td>API 应用模式<br>+ 开源衍生服务模式<br>（应用市场未成立）</td>
+  <td>① 自有产品收入<br>② <b>C 端打赏</b>（2026-06 新增，金额全额归开发者）<br>③ 企业项目实施费<br>无付费应用分发分成 <span class="s0">⊘</span></td>
+  <td>qwen3.5-plus 0.8/4.8 元每百万 token（0–128K）、2/12（128–256K）、4/24（256K–1M）；qwen3.6-plus 2/12；qwen3.5-flash 0.2/2。Batch −50%；显式缓存创建 125%、命中 10%（<b>缓存与 Batch 折扣不可叠加</b>）。微调按训练 token：qwen3-8b ¥0.006/千 token … qwen3.5-plus ¥0.3/千 token。部署三选一：PTU 预置吞吐 / 模型单元时长 / token 用量 <span class="s1">①</span></td>
+  <td>token、微调训练 token、独占部署 TPU/TPM、云服务器、获客、合规（含 2026-07 拟人化互动新规）、运维</td>
+  <td><b>自主</b>（对自有产品）。<b>打赏金额由平台随机生成 10 元以内</b>，开发者不掌握打赏定价 <span class="s2">②</span></td>
+  <td><b>付费分发分成机制尚未成立</b>。2026-06-25 联合支付宝首发智能体"AI 打赏"，官方表述"打赏的金额<b>将全部存入开发者的个人支付宝 AI 钱包</b>"，未提平台抽成 <span class="s2">②</span></td>
+  <td><b>不能</b>。百炼 API 账户为独立按量付费；通义 App 用户自建智能体已于 <b>2026-07-10~15 全面下线</b>（《人工智能拟人化互动服务管理暂行办法》2026-07-15 施行）<span class="s2">②</span></td>
+  <td>百炼客户数<b>同比增长 8 倍</b>（仅增速，<b>未给绝对值</b>）<span class="s1">①</span>；超 <b>10 万开发者</b>开发了 <b>30 多万个智能体</b> <span class="s2">②</span>；Qwen 在 HF <b>衍生模型 &gt;20 万个</b>、<b>下载 &gt;10 亿次</b>、日均新增衍生模型 &gt;200 个 <span class="s2">②</span><br><span class="und">token 绝对值、开发者收入 <span class="s0">⊘</span></span></td>
+  <td>2026-05-13 <span class="s1">①</span><br>2026-06-25 <span class="s2">②</span><br>2026-01-21 <span class="s2">②</span></td>
+</tr>
+
+<tr>
+  <td class="plat">火山方舟 / 豆包<br>（含扣子 Coze）</td>
+  <td>API 应用模式<br>+ <b>平台内模板市场（唯一完整分账链路）</b></td>
+  <td>① 自有产品收入<br>② <b>扣子模板商店付费模板销售</b>（走平台担保交易分账）<br>③ 企业项目实施费</td>
+  <td>doubao-seed-2.1-pro 3.00/1.20/15.00 元每百万 token（输入/缓存命中/输出）；2.1-turbo 1.50/0.60/7.50；1.6-flash 0.075/0.03/0.75。批量推理约五折；<b>缓存存储 0.017 元/百万 token/小时</b>。精调 LoRA/全量：seed-2.0-lite 40/80 元每百万 token；<b>精调后推理约 2.5 倍溢价</b>。TPM 保障包按 10K TPM/小时计。HiAgent 按"算点"计费 <span class="s1">①</span></td>
+  <td>token、缓存存储、精调训练与溢价推理、TPM 保障包、算点、获客、合规、运维</td>
+  <td><b>模板售价可自定</b>，但<b>分账比例由平台"预设"</b>，开发者不掌握分账权。须签署《扣子创作者模板服务条款（担保模式）》<span class="s1">①</span></td>
+  <td><b>存在，且是本研究中链路最完整的中国样本</b>：用户购买 → 资金进入<b>虚拟在途账户</b> → <b>等待 7 天</b> → 平台按<b>预设比例自动分账</b> → 商户在"商户管理"页提现。接入抖音支付·商户通与支付宝，微信支付审核中 <span class="s1">①</span><br><span class="hl">关键缺口：具体分账比例数值官方未公开 <span class="s0">⊘</span></span></td>
+  <td><b>不能</b>。豆包 App 智能体功能已于 <b>2026-07-15 下线</b>，数据保留至 2026-10-15，引导迁移至猫箱 App。方舟 API 与扣子专业版为独立企业/开发者账户 <span class="s2">②</span></td>
+  <td>豆包日均 tokens：2024-05 约 1200 亿 → 2025-12 底 <b>63 万亿</b> → 2026-03 <b>&gt;120 万亿</b> → 2026-06 <b>&gt;180 万亿</b> <span class="s2">②</span>；累计 tokens &gt;1 万亿的重度客户 100 家（2025 底）→ <b>140 家</b>（2026-03）；<b>超 150 万企业和个人</b>使用（企业+个人合计口径）；<b>扣子月活跃开发者 &gt;300 万</b> <span class="s2">②</span><br><span class="und">Bot 总数官方口径、开发者收入、分账比例 <span class="s0">⊘</span></span></td>
+  <td>2026-06-23 <span class="s2">②</span><br>2026-05-07 <span class="s2">②</span><br>2026-08-04 <span class="s1">①</span></td>
+</tr>
+
+<tr>
+  <td class="plat">百度千帆 / 文心<br>（含文心智能体平台）</td>
+  <td>API 应用模式<br>+ <b>流量分配型智能体市场（广告/线索分成）</b><br>+ 企业交付</td>
+  <td>① <b>广告分成</b>（智能体内广告组件）<br>② <b>线索转化分成</b>（留资组件，CPA/CPS 类）<br>③ <b>打赏与 1 对 1 付费咨询</b><br>④ 云市场应用销售<br>⑤ 企业项目实施费</td>
+  <td>ERNIE 5.0 输入 0.006 / 输出 0.024 元每千 token；4.5 Turbo 0.0008/0.0032，缓存命中 0.0002；X1.1（深度思考）0.001/0.004。Batch 约五折。<b>主动 Cache 模式称可降推理成本 80%</b>。精调/部署按算力单元；知识库按存储+调用 <span class="s1">①</span><span class="s2">②</span></td>
+  <td>token、算力单元、知识库存储、应用开发、合规；<b>获客成本部分由百度搜索流量池承担</b>（这是与其他平台的核心差异）</td>
+  <td><b>受限</b>。广告与线索分成的单价由百度广告/线索体系定价，开发者不能自定 CPM/CPA；付费咨询与打赏可自定 <span class="s1">①</span></td>
+  <td><b>存在，且是唯一以"流量分成"而非"交易抽佣"为主的样本</b>。变现路径为广告分成与线索转化分成 <span class="s1">①</span>；百度云市场对第三方服务商抽佣<b>最低 10%</b>（按类目浮动）<span class="s1">①</span><span class="und">（该费率页需复核）</span></td>
+  <td><b>不适用/不能</b>。文心一言 C 端自 2025-04-01 起全面免费，无消费者积分池；千帆为企业/开发者独立账户 <span class="s1">①</span></td>
+  <td>千帆：客户数 <b>46 万+</b>、累计构建智能体 <b>&gt;130 万个</b>、纳管 <b>150+ SOTA 模型</b>、工具组件日均调用<b>亿级</b>（2026-02）<span class="s2">②</span>；2026-03 外部客户<b>日均 token 消耗同比增近 7 倍</b> <span class="s1">①</span>；文心智能体平台 <b>80 万开发者 + 15 万企业</b>、<b>&gt;10 万个智能体接入商业组件</b>（2024-11）<span class="s3">③</span><br><span class="und">开发者分成总额、单个开发者收入 <span class="s0">⊘</span></span></td>
+  <td>2026-02 <span class="s2">②</span><br>2026-05-18 <span class="s1">①</span><br>2024-11 <span class="s3">③</span></td>
+</tr>
+
+<tr>
+  <td class="plat">智谱 BigModel<br>（02513.HK）</td>
+  <td><b>企业项目 / 私有化部署交付模式</b>（主）<br>+ API 应用模式<br>+ 开发者订阅模式<br>+ 开源衍生服务模式</td>
+  <td>① 自有产品收入<br>② 企业私有化交付（对智谱自身而言是主收入，对生态开发者则是 SI 项目费）<br>无平台分成 <span class="s0">⊘</span></td>
+  <td>GLM-4-Plus 5 元/百万 token；GLM-4-Flash、GLM-Z1-Flash <b>免费</b>；Batch 约五折。<b>GLM Coding Plan 订阅：Lite ¥49 / Pro ¥149 / Max ¥469 每月</b>（面向开发者的席位型产品）<span class="s1">①</span></td>
+  <td>token 或订阅费、私有化部署硬件、微调、应用开发、获客、合规、运维</td>
+  <td><b>完全自主</b>。GLM 系列 MIT 开源，无转售与定价限制 <span class="s1">①</span></td>
+  <td><b>不存在</b> <span class="s0">⊘</span>。有资金型激励（"Z 计划"基金、开源基金现金+token 额度），属<b>补贴</b>而非分成 <span class="s1">①</span><span class="s2">②</span></td>
+  <td><b>不能</b>。智谱清言 C 端与开放平台 API 账户分离；GLM Coding Plan 为独立开发者订阅</td>
+  <td><b>本研究中监管披露最完整的样本</b>（招股书）：截至 2025-09-30 赋能全球 <b>12,000 家企业客户</b>、逾 <b>8000 万台</b>终端设备、超 <b>4500 万名开发者（注册口径）</b>；MaaS 平台超 <b>270 万家</b>企业及应用开发者；机构客户 48 家（2022）→ 3,156 家（2024）→ <b>&gt;1.2 万家</b>（2025-09）；<b>日均 token 消耗 5 亿 → 4.6 万亿（2025-06 末）→ 4.2 万亿（2025-11）</b>；<b>GLM Coding Plan 付费开发者 &gt;15 万（184 个国家）、ARR 破亿元</b></td>
+  <td>招股书<br>2025-12-19<br>上市 2026-01-08 <span class="s1">①</span></td>
+</tr>
+
+<tr>
+  <td class="plat">Poe<br>（Quora）</td>
+  <td><b>积分型机器人市场模式</b>（唯一完整样本）</td>
+  <td><b>按次收费（price per message），以美元计价、由 Poe 现金结算</b><br>历史上还有订阅归因 bounty（现行文档已无）</td>
+  <td><b>创作者不向 Poe 支付 API 费用</b>。官方："<i>Our intent is to cover all model inference costs and any other significant per-message costs involved in operating any bot on Poe.</i>" 自带模型的 server bot，Poe 亦可协商代付推理成本（须托管于 Fireworks/Together/Replicate 并开放成本可见性）<span class="s1">①</span></td>
+  <td><b>成本近乎为零</b>：模型推理由 Poe 兜底；Script Bots 连基础设施也由 Poe 承担。开发者仅承担提示词/代码开发与自身获客</td>
+  <td><b>可自定，但受平台三重约束</b>：<br>① <b>价格上限：每 1,000 条消息最高 $10,000</b> <span class="s1">①</span><br>② 可随时改价、最长 24 小时生效，但"高价与频繁改价<b>会影响你在 Poe 上的分发</b>" <span class="s1">①</span><br>③ <b>用户端积分价 = 创作者定价 + Poe 成本</b>的聚合值，创作者<b>不掌握积分兑换率</b>（$30/百万点由平台单方设定）</td>
+  <td><b>存在真实现金分成，但比例从未公布</b> <span class="s0">⊘</span>。抽成完全<b>隐含在"用户端积分定价 − 创作者美元定价"的价差</b>中。<br>结算：Stripe，门槛累计 <b>≥$10</b>，周期<b>月末后 30–45 天</b>，须 90 天内补齐税务信息，限 <b>23 个国家/地区（不含中国大陆）</b> <span class="s1">①</span></td>
+  <td><b>能——本研究中唯一"是"的样本</b>。消费者订阅积分池<b>同时可用于</b>平台接入的 200+ 基础模型与第三方创作者 bot，积分不结转，可加购（$30/百万点，有效期 1 年，不可退款） <span class="s1">①</span></td>
+  <td>官方唯一收入表述："<i>paying our <b>top creator hundreds of thousands of dollars per year</b></i>"（2025-11-21）<span class="s1">①</span><br><span class="und">bot 数量、创作者数量、订阅用户数、MAU、累计支付创作者总额、Poe ARR <b>全部 <span class="s0">⊘</span></b>；官方仅称 "millions of users"、"200+ models"</span></td>
+  <td>2026-07（FAQ 更新）<br>2025-11-21 <span class="s1">①</span></td>
+</tr>
+
+<tr style="background:#f4f6f8">
+  <td class="plat">OpenRouter<br><span style="font-weight:400;font-size:11px;color:#767d85">（对照：API 批发商）</span></td>
+  <td>API 批发/路由模式</td>
+  <td>不适用（开发者是付费方，非收款方；平台无创作者分成层）</td>
+  <td><b>充值手续费 5.5%（最低 $0.80）</b>，加密支付 5%；<b>BYOK 每月前 100 万次请求免费，超出按同模型正常价的 5%</b> <span class="s1">①</span></td>
+  <td>token（原价透传）+ 充值手续费</td>
+  <td>不适用</td>
+  <td><b>显式费率、明确声明零加价</b>："<i>We pass through the pricing of the underlying providers; there is no markup on inference pricing.</i>" <span class="s1">①</span></td>
+  <td>无消费者订阅池</td>
+  <td>官网实时口径：月处理 <b>100T tokens</b>、<b>10M+ 用户</b>、70+ providers、400+ models、<b>250k+ apps</b> 覆盖 4.2M+ 终端用户 <span class="s1">①</span></td>
+  <td>2026-08-04 <span class="s1">①</span></td>
+</tr>
+
+<tr style="background:#f4f6f8">
+  <td class="plat">Hugging Face<br><span style="font-weight:400;font-size:11px;color:#767d85">（对照：开源基础设施）</span></td>
+  <td>开源模型衍生服务模式（基础设施侧）</td>
+  <td><b>模型作者无收入分成</b>；收益为声誉与分发。Spaces 作者可自行接入外部付费</td>
+  <td>PRO $9/月；Team $20/席/月；Enterprise $50/席/月。GPU Spaces：T4-small $0.40/h … 8×A100 $20/h。存储：公开 $12/TB/月、私有 $18/TB/月 <span class="s1">①</span></td>
+  <td>算力租赁、存储、席位费</td>
+  <td>不适用</td>
+  <td><b>Inference Providers 明确零加价</b>："<i>Hugging Face charges you the same rates as the provider, with no additional fees.</i>" 每月赠额：Free $0.10 / PRO $2 / Team-Ent $2 每席 <span class="s1">①</span></td>
+  <td>额度可用于第三方 provider，但<b>无第三方开发者分成层</b></td>
+  <td><b>2M+ 模型、500k+ 数据集、1M+ Spaces、50,000+ 组织、13M 用户</b>。生态集中度：Top 200 模型（0.01%）占全站下载 <b>49.6%</b>；约一半模型总下载 &lt;200 次 <span class="s1">①</span></td>
+  <td>2026-08-04 <span class="s1">①</span></td>
+</tr>
+
+<tr style="background:#f4f6f8">
+  <td class="plat">Character.AI<br><span style="font-weight:400;font-size:11px;color:#767d85">（对照：零货币化 UGC）</span></td>
+  <td>UGC 内容平台（<b>反例</b>）</td>
+  <td><b>无</b>。2026-06-17 发布的创作者工具全套为 Creator Guide、Insights、Following Tab、Leaderboards——<b>全部是曝光与数据工具，零现金分成</b> <span class="s1">①</span></td>
+  <td>创作者不付费</td>
+  <td>无（成本由平台承担）</td>
+  <td>不适用（角色不可定价）</td>
+  <td><b>不存在</b>。Charms 虚拟货币是<b>面向用户</b>的（签到/任务获取，兑换图像生成、跳过广告），<b>创作者不参与其收益</b> <span class="s1">①</span></td>
+  <td>不适用</td>
+  <td>官方仅表述 "millions of Characters"；<span class="und">角色数、创作者数、MAU 具体数字 <span class="s0">⊘</span></span></td>
+  <td>2026-06-17<br>2025-12 <span class="s1">①</span></td>
+</tr>
+
+</tbody>
+</table>
+</div>
+
+<!-- ============ 1b ============ -->
+<h2 id="s1b"><span class="num">1b</span>商业模式五分类归属表</h2>
+
+<table>
+<thead><tr><th style="width:190px">商业模式</th><th style="width:230px">归属平台</th><th>该模式的制度特征</th><th style="width:150px">代表性证据</th></tr></thead>
+<tbody>
+<tr>
+  <td class="plat">A. API 应用模式</td>
+  <td>OpenAI、Anthropic、DeepSeek、百炼、方舟、千帆、BigModel、OpenRouter</td>
+  <td>开发者是<b>纯付费方</b>；平台只做上游要素供应，不参与下游收益分配。开发者收入 100% 来自站外，平台无从观测，也无从抽成。价值捕获完全依赖 token 消耗量增长。<b>这是全部 8 家主体平台的共同底座</b>。</td>
+  <td>Anthropic 商用条款全文无分成条款 <span class="s1">①</span>；OpenAI 官方推荐 external checkout <span class="s1">①</span></td>
+</tr>
+<tr>
+  <td class="plat">B. 平台内智能体<br>/ 应用市场模式</td>
+  <td><b>成立</b>：扣子模板商店（担保分账）、百度文心智能体平台（广告/线索分成）、百度云市场（抽佣 ≥10%）<br><b>发育中</b>：ChatGPT Apps（仅实体商品外链）<br><b>未成立</b>：百炼（仅打赏）、Claude（明确无分成）</td>
+  <td>平台同时是<b>流量分配者与支付结算者</b>。分成的前提是平台能观测交易：扣子靠担保交易，百度靠广告/线索计费系统。OpenAI 选择不观测（external checkout），因而也无从抽成——<b>"不抽成"与"不结算"是同一枚硬币的两面</b>。</td>
+  <td>扣子《模板收入结算》文档 <span class="s1">①</span>；agents.baidu.com 广告分成/线索转化文档 <span class="s1">①</span></td>
+</tr>
+<tr>
+  <td class="plat">C. 积分型机器人<br>市场模式</td>
+  <td><b>Poe（唯一完整样本）</b><br>反例：Character.AI（有 UGC 无分成）</td>
+  <td>平台发行<b>内部货币（compute points）</b>，单方面设定兑换率（$30/百万点），并<b>承担全部模型推理成本</b>。创作者以美元报价、赚取净加价，成本近乎为零，但<b>不掌握积分定价权、不知道抽成比例、且定价行为直接触发分发惩罚</b>。这是货币发行权与流量治理权的合流。</td>
+  <td>Poe《How We Cover Your Costs》<span class="s1">①</span>；Creator Monetization FAQs（价格上限 $10,000/千条消息）<span class="s1">①</span></td>
+</tr>
+<tr>
+  <td class="plat">D. 企业项目 / 私有化<br>部署与智能体交付</td>
+  <td>智谱（<b>2025H1 本地化部署占营收 84.8%</b>）、DeepSeek 一体机生态（60+ 厂商）、百度（大模型中标 48 项目/5.1 亿元）、Anthropic Claude Marketplace</td>
+  <td>收入形态为<b>项目实施费 + 私有化部署费 + 运维费</b>，客户以政府、金融、能源为主。<b>毛利率显著高于云端 API</b>，但不可规模化复制。智谱招股书提供了迄今最锋利的证据。</td>
+  <td>智谱招股书：本地部署毛利率 2024 年 <b>66.0%</b>、2025H1 <b>59.1%</b>；云端部署毛利率 <b>3.4%</b> / <b>−0.4%</b> <span class="s1">①</span></td>
+</tr>
+<tr>
+  <td class="plat">E. 开源模型<br>衍生服务模式</td>
+  <td>DeepSeek（MIT）、Qwen（衍生模型 &gt;20 万）、GLM（MIT）、ERNIE 4.5（Apache 2.0，2025-06-30 开源）、Hugging Face（基础设施）</td>
+  <td>模型权重免费，平台<b>主动放弃对下游收益的主张</b>。价值捕获转移至云托管商、硬件一体机厂商、系统集成商。<b>平台换取的是生态锁定与标准地位，而非现金流</b>。</td>
+  <td>DeepSeek License FAQ："DeepSeek 不会主张开发者在上述使用中获得的任何收益、利益" <span class="s1">①</span></td>
+</tr>
+</tbody>
+</table>
+
+<div class="lead">
+<b>分类的关键发现</b>：五类模式并非互斥，而是<b>层叠</b>的。除 Poe 外的所有平台都以 A（API 应用模式）为底座，B/C/D/E 是叠加在其上的可选层。真正的差异不在"平台做哪类生意"，而在<b>平台是否拥有观测下游交易的技术手段</b>——这决定了它能否从 A 走向 B/C。
+</div>
+
+<!-- ============ 2 ============ -->
+<h2 id="s2"><span class="num">2</span>第二部分：分平台数据卡</h2>
+
+<p>每张卡片分四栏：<b>①已公开的规模数据</b>（严格分口径）、<b>②生态规模指标</b>、<b>③开发者收入与分成案例</b>、<b>④未公开数据及替代指标</b>。</p>
+
+<!-- OpenAI -->
+<div class="card" id="p-openai">
+  <div class="hd"><span class="name">2.1　OpenAI</span><span class="tag">API 应用模式</span><span class="tag">平台内应用市场（发育中）</span><span class="tag">广告模式（2026 新增）</span></div>
+  <div class="bd">
+
+<h4>① 已公开的开发者 / 企业 / 应用数量</h4>
+<table>
+<thead><tr><th style="width:180px">指标</th><th style="width:150px">数值</th><th style="width:110px">日期</th><th>口径与出处</th></tr></thead>
+<tbody>
+<tr><td><b>注册开发者数量</b></td><td><b>400 万</b></td><td>2025-10-06</td><td>DevDay 2025 官方口径，<b>注册口径，非付费开发者</b> <span class="s1">①</span></td></tr>
+<tr><td><b>企业客户数</b></td><td><b>100 万家</b></td><td>2025-11-05</td><td>"1 million businesses putting AI to work" 官方博客 <span class="s1">①</span></td></tr>
+<tr><td>ChatGPT for Work 席位</td><td>700 万 → <b>900 万付费企业用户</b></td><td>2025-11-05 → 2026-02-27</td><td>席位口径，<b>不是开发者</b> <span class="s1">①</span></td></tr>
+<tr><td>消费者订阅数</td><td>5,000 万</td><td>2026-02-27</td><td>消费者口径，<b>不得代替开发者数量</b> <span class="s1">①</span></td></tr>
+<tr><td>ChatGPT 周活</td><td>8 亿 → <b>9 亿</b></td><td>2025-10 → 2026-03-31</td><td>消费者口径 <span class="s1">①</span></td></tr>
+<tr><td><b>GPTs 数量 / Apps 数量</b></td><td colspan="3"><span class="s0">⊘ 官方从未公布总量</span>。2024-01 GPT Store 上线时曾称"300 万个 GPTs"（当时口径），此后停止披露</td></tr>
+</tbody>
+</table>
+
+<h4>② 生态规模指标</h4>
+<ul>
+<li><b>API 处理量：60 亿 tokens/分钟</b>（2025-10-06，DevDay）→ <b>150 亿 tokens/分钟</b>（2026-03-31，官方博客）<span class="s1">①</span>。年化约 7.9 千万亿 tokens/年，是本研究中<b>唯一以"分钟"为单位披露的平台</b>。</li>
+<li><b>收入结构</b>：企业收入（含 API 与企业订阅）占比 <b>&gt;40%</b>，官方称"有望在 2026 年底与消费者收入达到 parity"（2026-03-31）<span class="s1">①</span>。API 单独占比官方未拆分；第三方拆解约 25%（<span class="s2">②</span>，口径不一，仅供参考）。</li>
+<li><b>广告线（2026 新增）</b>：2026-02-09 首批广告落地，仅面向部分 Free 与 Go 用户，<b>CPM 定价 $60 起</b>；启动 6 周即实现<b>年化 &gt;1 亿美元</b>，广告主 &gt;600 家；The Information 预计 2026 年广告收入 24 亿美元 <span class="s2">②</span>（中信建投研究，2026-04-12）。<b>注意：广告收入归 OpenAI，非开发者分成。</b></li>
+</ul>
+
+<h4>③ 开发者收入与平台分成</h4>
+<div class="warn">
+<b>核心发现：OpenAI 官方货币化文档中不存在任何分成比例条款。</b><br>
+现行《Apps SDK — Monetization》文档原文："<i>When building a ChatGPT app, developers are <b>responsible for choosing how to monetize</b> their experience. Today, the recommended and generally available approach is to use <b>external checkout</b>, where users complete purchases on the developer's own domain… Payment, billing, taxes, refunds, and compliance are handled <b>entirely on your domain</b>.</i>" <span class="s1">①</span><br>
+三条路径：<b>(a) External checkout（推荐、GA）</b>——开发者完全自主定价与结算，OpenAI 不介入、不抽成；<b>(b) In-app checkout with saved payment methods</b>——只能展示商户已保存的支付方式，不能收集新卡；<b>(c) ChatGPT Payment Sheet（私有 beta）</b>——仅限选定 marketplace 伙伴。<b>当前审批范围仅限实体商品购买。</b>
+</div>
+<ul>
+<li><b>时间线</b>：2024-01-10 GPT Store 上线并宣布 Q1 推美国 builder 收入计划 <span class="s1">①</span> → GPT Builder Revenue Program <b>仅限受邀美国精选 builder，从未广泛开放</b> <span class="s1">①</span> → 2025-09-29 发布 Agentic Commerce Protocol 与 Instant Checkout，<b>商家付 "small fee"、用户免费、商家为 merchant of record</b> <span class="s1">①</span> → 2025-10-06 Apps SDK 预览，官方称"稍后公布货币化细节" <span class="s1">①</span> → 2025-12-17 开放 App 提交 <span class="s1">①</span> → 2026-03 Instant Checkout 转向商品发现基础设施 <span class="s1">①</span>。</li>
+<li><b>ACP 费率</b>：官方仅称 "small fee"，<b>从未量化</b>。媒体称约 4% <span class="s2">②</span>，<b>未获官方确认，本报告不采信为事实</b>。</li>
+<li><b>典型案例</b>：Nick Dobos（Grimoire GPT，200 万对话）获<b>保底 $1,000/月</b>的试点邀请 <span class="s2">②</span>（WIRED，2024-03）。这是全网唯一可查的具名 GPT 创作者收入数字，且属试点补贴而非分成。</li>
+<li><b>消费者额度隔离</b>：ChatGPT Plus/Pro/Business/Enterprise 订阅<b>不含 API 访问</b>；第三方 App 收费走开发者自有通道。四类账户（消费者订阅 / API 按量 / 企业席位 / 商家 ACP）<b>完全隔离</b> <span class="s1">①</span>。</li>
+</ul>
+
+<h4>④ 未公开数据与替代指标</h4>
+<table>
+<thead><tr><th style="width:280px">未公开指标</th><th>可用替代指标</th></tr></thead>
+<tbody>
+<tr><td>付费开发者数量</td><td>用"企业客户 100 万家"作上界代理；用 API tokens/分钟增长（2.5× / 5 个月）作强度代理</td></tr>
+<tr><td>GPTs / Apps 总数</td><td>无有效代理。可用 DevDay 公布的 pilot partner 数（7 家首发 + 11 家在途）作下界</td></tr>
+<tr><td>开发者收入总额 / 分布</td><td><b>结构性不可得</b>：external checkout 意味着 OpenAI 本身也观测不到该数据</td></tr>
+<tr><td>API 收入绝对值与占比</td><td>用"企业收入占比 &gt;40%"作合并上界；第三方拆解仅供参考</td></tr>
+<tr><td>ACP 具体费率</td><td>用同业商品佣金率（4–15%）作区间参考，但不得写入结论</td></tr>
+</tbody>
+</table>
+
+  </div>
+</div>
+
+<!-- Anthropic -->
+<div class="card" id="p-anthropic">
+  <div class="hd"><span class="name">2.2　Anthropic（Claude）</span><span class="tag">API 应用模式</span><span class="tag">企业采购承诺额度导流</span><span class="tag">明确零分成</span></div>
+  <div class="bd">
+
+<h4>① 已公开的开发者 / 企业客户数量</h4>
+<table>
+<thead><tr><th style="width:220px">指标</th><th style="width:170px">数值</th><th>口径与出处</th></tr></thead>
+<tbody>
+<tr><td><b>API 注册/付费开发者数量</b></td><td colspan="2"><span class="s0">⊘ 官方从未公布</span>。流传的"280 万注册开发者"出自内容农场，已剔除（见附录 B）</td></tr>
+<tr><td>年消费 &gt;$10 万客户</td><td><b>一年增长 7 倍</b>（仅增速）</td><td>Series G 融资公告，<b>未给绝对值</b> <span class="s1">①</span></td></tr>
+<tr><td>年消费 &gt;$100 万客户</td><td><b>&gt;500 家</b>（两年前仅十几家）</td><td>Series G 融资公告 <span class="s1">①</span>；另有 "&gt;1000 家企业年付 &gt;$100 万" 的会议口径 <span class="s2">②</span>，两者口径与时点不同，不可混用</td></tr>
+<tr><td>Fortune 10 覆盖</td><td>10 家中 <b>8 家</b></td><td>Series G 融资公告 <span class="s1">①</span></td></tr>
+</tbody>
+</table>
+
+<h4>② 生态规模指标</h4>
+<ul>
+<li><b>run-rate 收入 $140 亿</b>（Series G 公告，<span class="s1">①</span>）；此后 $190 亿（2026-03）→ <b>$300 亿</b>（2026-04，CEO 称首季年化增速 80×，<span class="s2">②</span>）→ ARR <b>$440 亿</b>（2026-05，SemiAnalysis，<span class="s2">②</span>）。<b>后两项为二级来源，官方未确认。</b></li>
+<li><b>Claude Code run-rate &gt;$25 亿</b>，2026 年初以来翻倍以上，周活用户较 1/1 翻倍，商业订阅数翻两番，<b>企业使用占其收入一半以上</b>；<b>约 4% 的全球 GitHub 公开 commits 由 Claude Code 撰写</b> <span class="s1">①</span>。这是本研究中<b>唯一可量化的"AI 生成产出占全球产出比例"指标</b>。</li>
+<li><b>收入结构</b>：API + 企业合同占 ARR 75–85%，订阅约 15%，其中<b>个人消费者订阅仅约 5%</b>（对比 OpenAI 约 40%）<span class="s2">②</span> SemiAnalysis。推理毛利率由一年前 38% 升至 <b>70%+</b> <span class="s2">②</span>。<b>官方从未披露收入结构占比。</b></li>
+<li><b>渠道分成（反向）</b>：经 AWS Bedrock 等间接渠道的收入占 ARR 15–20%（一季度前为 5–10%），<b>需向云厂商支付约 20% 渠道分成</b> <span class="s2">②</span>。即 Anthropic 自身是"向平台付分成"的一方。</li>
+</ul>
+
+<h4>③ 开发者收入与平台分成</h4>
+<div class="warn">
+<b>Anthropic 是本研究中唯一有官方人员明确表态"不做分成"的平台。</b><br>
+Agent Skills 发布时，Anthropic 产品经理 Mahesh Murag 表述："<i>It's a mutually beneficial ecosystem relationship similar to MCP connector partnerships. <b>There are no revenue-sharing arrangements at this time.</b></i>" <span class="s2">②</span>（首发伙伴含 Atlassian、Figma、Stripe、Zapier、Canva 等十家）
+</div>
+<ul>
+<li><b>Claude Code 插件市场</b>本质是 git 仓库中的 <code>.claude-plugin/marketplace.json</code>，自托管于 GitHub/GitLab；官方文档全文<b>无 payment / billing / revenue / monetize 字段</b> <span class="s1">①</span>。</li>
+<li><b>Connectors Directory</b> 为开放 MCP 服务器目录（分 Anthropic verified 与 community），<b>无上架费、无抽成条款</b> <span class="s1">①</span>。</li>
+<li><b>Claude Marketplace（2026-03 限量预览）</b>是唯一带商业属性的层：企业可将<b>已有的 Anthropic 消费承诺额度</b>用于购买伙伴方案，"Anthropic will manage all invoicing for partner spend" <span class="s1">①</span>。首发伙伴 GitLab、Harvey、Lovable、Replit、Rogo、Snowflake，后增 Augment Code、Bolt、CodeRabbit、Legora。<b>这不是抽成，而是"把企业采购预算导向生态伙伴"——是流量分配而非收益分配。官方 FAQ 未出现"零佣金"字样，抽成比例 <span class="s0">⊘ 未披露</span>。</b></li>
+<li><b>定价权与治理权</b>：商用条款（生效 2025-06-17）A.1 明确允许"以 Claude 驱动客户自有产品与服务"；<b>无任何对终端定价的限制</b>；但 D.4.a <b>禁止未经明示批准的转售</b>，D.4.b 禁止逆向工程 <span class="s1">①</span>。输出所有权归客户，Anthropic 不以客户内容训练模型。<b>全文无收入分成条款。</b></li>
+<li><b>消费者额度</b>：Pro/Max/Team/Enterprise 订阅内含 Claude Code，网页/桌面/移动/CLI <b>共用同一用量池</b>（5 小时滚动窗口 + 每周上限）；耗尽后可开通 usage credits 按 API 费率续用 <span class="s1">①</span>。<b>该额度池不向第三方产品开放。</b></li>
+</ul>
+
+<h4>④ 未公开数据与替代指标</h4>
+<ul>
+<li><b>开发者数量</b> <span class="s0">⊘</span> → 替代：年消费 &gt;$10 万/&gt;$100 万客户数（付费强度口径）；Claude Code 商业订阅"翻两番"的增速口径。</li>
+<li><b>官方收入结构占比</b> <span class="s0">⊘</span> → 替代：SemiAnalysis 拆解（75–85% API+企业）<span class="s2">②</span>，须标注为第三方测算。</li>
+<li><b>Claude Marketplace 抽成比例</b> <span class="s0">⊘</span> → 无替代。切勿采用网传"15%"（见附录 B）。</li>
+<li><b>token 处理量</b> <span class="s0">⊘</span> → 替代：4% GitHub 公开 commits 的产出侧代理指标。</li>
+</ul>
+
+  </div>
+</div>
+
+<!-- DeepSeek -->
+<div class="card" id="p-deepseek">
+  <div class="hd"><span class="name">2.3　DeepSeek</span><span class="tag">开源模型衍生服务模式</span><span class="tag">制度性放弃生态价值捕获</span></div>
+  <div class="bd">
+
+<h4>① 已公开的数量指标</h4>
+<table>
+<thead><tr><th style="width:230px">指标</th><th>状态</th></tr></thead>
+<tbody>
+<tr><td>开发者数量 / 付费开发者 / 企业客户数</td><td><b><span class="s0">⊘ 全部未公开</span></b>——本研究中披露最少的主体平台</td></tr>
+<tr><td>消费者 MAU（<b>不得代替开发者数</b>）</td><td>上线 18 天下载 1,600 万次、覆盖 140 市场 <span class="s2">②</span>（Sensor Tower，2025-02-01）；2026Q1 中国区 MAU <b>1.27 亿</b>，居 AI 原生应用第三（豆包 3.45 亿、千问 1.66 亿）<span class="s3">③</span> QuestMobile</td></tr>
+<tr><td>应用市场 / 分成机制</td><td><b>不存在</b>，且为<b>明示的制度选择</b> <span class="s1">①</span></td></tr>
+</tbody>
+</table>
+
+<h4>② 生态规模指标：唯一的官方量化窗口</h4>
+<div class="lead">
+2025-03-01，DeepSeek 于"开源周"发布《DeepSeek-V3/R1 推理系统概览》，统计窗口 <b>2025-02-27 12:00 – 02-28 12:00</b>：
+<ul style="margin-bottom:0">
+<li>V3/R1 推理服务峰值占用 <b>278 个节点</b>，平均 <b>226.75 个节点</b>（每节点 8×H800）</li>
+<li>原文：<i>"假定 GPU 租赁成本为 2 美金/小时，总成本为 <b>$87,072/天</b>……如果所有 tokens 全部按照 DeepSeek-R1 的定价计算，理论上一天的总收入为 <b>$562,027</b>，<b>成本利润率 545%</b>"</i></li>
+<li>缓存命中率 <b>56.3%</b>（输入 token 中 3,420 亿个命中 KVCache）</li>
+<li><b>官方自我限定</b>：<i>"实际上没有这么多收入，因为 V3 的定价更低，同时收费服务只占了一部分，另外夜间还会有折扣"</i></li>
+</ul>
+<span class="src">来源：央广网 2025-03-01、中国证券网、证券时报 2025-03-02 <span class="s2">②</span></span>
+</div>
+<p class="note"><b>学术引用警示</b>：545% 是<b>理论成本利润率</b>，口径为"全部负载按 R1 定价 × 假定 GPU 租金"，<b>既非实际财务利润率，也未计入训练摊销、研发与人力</b>。任何将其作为行业毛利基准的引用都属误用。</p>
+
+<h4>③ 开发者盈利路径（全部外部化）与典型案例</h4>
+<ul>
+<li><b>制度基础</b>：自 DeepSeek-R1（2025-01-20）起，模型权重统一采用 <b>MIT License</b>，官方表述"完全开源，<b>不限制商用，无需申请</b>"，并明确允许蒸馏（"Distill &amp; commercialize freely!"）<span class="s1">①</span>。License FAQ 进一步声明：<b>"DeepSeek 不会主张开发者在上述使用中获得的任何收益、利益"</b> <span class="s1">①</span>。</li>
+<li><b>路径 a — 一体机（私有化部署硬件）</b>：至少 <b>60 余家</b>厂商（华为昇腾、中科曙光、浪潮、新华三等）推出 DeepSeek 一体机；"满血一体机"约 <b>150 万–200 万元</b>；业内称硬件毛利率约 15%、软件毛利率约 40% <span class="s2">②</span>。</li>
+<li><b>路径 b — 实际中标（政府采购公开数据，一手可核）</b>：
+  <ul>
+  <li><b>中国政法大学</b>高性能大模型推理服务器采购：中标 <b>399 万元</b>，供应商罗天科技集团，浪潮 NF5688M7，1 套单价 <b>210.7 万元</b>（中国政府采购网，2026-03-24）<span class="s1">①</span></li>
+  <li><b>广西人工智能学院</b>算力中心：成交 <b>172 万元</b>，其中"DeepSeek 大模型训练推理一体机"联想问天 WA5480 G3 单价 <b>62.13 万元</b>（广西政府采购中心，2025-08-21）<span class="s1">①</span></li>
+  </ul>
+</li>
+<li><b>路径 c — 云厂商托管</b>：阿里云、腾讯云、华为云、硅基流动、AWS Bedrock 等均上架。<b>各平台的托管分成或定价条款 <span class="s0">⊘ 未检索到官方一手来源</span>。</b></li>
+<li><b>路径 d — 兼容层导流</b>：DeepSeek 提供 Anthropic 格式兼容端点 <code>https://api.deepseek.com/anthropic</code>，主动适配 Claude Code 等客户端 <span class="s1">①</span>——<b>这是"以协议兼容抢夺开发者工作流"的典型策略</b>。</li>
+</ul>
+
+<h4>④ 未公开数据与替代指标</h4>
+<ul>
+<li><b>日均 token 处理量、API 收入</b> <span class="s0">⊘</span> → 替代：OpenRouter 第三方统计（DeepSeek 系模型 2024-11~2025-11 处理 14.37 万亿 token，为第二名 Qwen 的 2.6 倍）<span class="s3">③</span>，仅覆盖单一聚合渠道，不能外推全量。</li>
+<li><b>开发者数量</b> <span class="s0">⊘</span> → 替代：一体机厂商数（60+）、中标项目数与金额、HF 衍生模型数。</li>
+<li><b>估值/融资</b>：网传 2026-06 首轮外部融资 &gt;$74 亿、估值 &gt;$500 亿 <span class="s3">③</span>，<b>未取得一手来源，本报告不采信</b>。</li>
+</ul>
+
+  </div>
+</div>
+
+<!-- 百炼 -->
+<div class="card" id="p-bailian">
+  <div class="hd"><span class="name">2.4　阿里云百炼 / 通义千问</span><span class="tag">API 应用模式</span><span class="tag">开源衍生服务模式</span><span class="tag">应用市场未成立（仅打赏）</span></div>
+  <div class="bd">
+
+<h4>① 已公开的开发者 / 企业 / 智能体数量</h4>
+<table>
+<thead><tr><th style="width:200px">指标</th><th style="width:180px">数值</th><th style="width:100px">日期</th><th>口径与出处</th></tr></thead>
+<tbody>
+<tr><td><b>百炼客户数</b></td><td><b>同比增长 8 倍</b></td><td>2026-05-13</td><td>阿里巴巴集团业绩公告，<b>仅给增速，未给绝对值</b> <span class="s1">①</span></td></tr>
+<tr><td><b>开发者数量</b></td><td><b>&gt;10 万</b></td><td>2026-06-25</td><td>上海证券报，<b>注册/活跃口径未明</b> <span class="s2">②</span></td></tr>
+<tr><td><b>智能体数量</b></td><td><b>&gt;30 万个</b></td><td>2026-06-25</td><td>同上；另有 100+ 智能体模板 <span class="s2">②</span></td></tr>
+<tr><td>Token 需求</td><td>2026 年 5–6 月较 2025 年 11–12 月<b>增长 10 倍以上</b></td><td>2026-05-13</td><td>业绩会口径，<b>未披露日均绝对值</b> <span class="s2">②</span></td></tr>
+<tr><td>上架模型总数</td><td colspan="3"><span class="s0">⊘ 未检索到官方数字</span></td></tr>
+</tbody>
+</table>
+
+<div class="note">
+<b>收入口径警示（必须区分）</b>：FY2026Q4（截至 2026 年 3 月季度）阿里云智能集团收入 <b>416.26 亿元</b>（+38%），外部商业化收入 +40%；<b>AI 相关产品收入 89.71 亿元/季</b>，占云外部商业化收入 30%，连续第 <b>11 个季度</b>三位数同比增长；含百炼在内的"AI 模型与应用服务" <b>ARR 突破 80 亿元</b>，管理层指引年底 300 亿元 <span class="s1">①</span><span class="s2">②</span>。<br>
+<b>以上全部为云/AI 大盘口径，不能等同于开发者付费规模，更不能等同于开发者收入。</b>
+</div>
+
+<h4>② 开源衍生生态：本研究中规模最大的开源样本</h4>
+<ul>
+<li>2026-01-13：Qwen 在 Hugging Face <b>累计下载 7 亿次</b>，累计开源近 400 个模型，<b>衍生版本 &gt;18 万个</b>；2025-10 累计下载超越 Meta Llama <span class="s2">②</span>（新华社）。</li>
+<li>2026-01-21：HF 数据显示千问<b>衍生模型突破 20 万个（全球首个）</b>，<b>下载量突破 10 亿次</b>，日均下载 110 万次，<b>日均新增衍生模型 &gt;200 个</b> <span class="s2">②</span>（上海证券报）。</li>
+<li>2026-08-02：央视重申"千问系列以超过 10 亿次下载排名 HF 榜首" <span class="s2">②</span>。</li>
+</ul>
+
+<h4>③ 开发者收入与平台分成</h4>
+<ul>
+<li><b>付费分发分成机制尚未成立。</b>百炼控制台存在"模型广场""应用广场"入口 <span class="s1">①</span>，但<b>未检索到按比例抽成的付费应用/智能体商店</b>。</li>
+<li><b>2026-06-25，百炼联合支付宝首发智能体"AI 打赏"</b>：开发者开通"支付宝 AI 收" → 在应用配置中开启打赏 → 对话界面生成打赏按钮；<b>平台随机生成 10 元以内金额</b>，官方表述"<b>打赏的金额将全部存入开发者的个人支付宝 AI 钱包</b>"（未提平台抽成）<span class="s2">②</span>。同月上线支付宝 MCP Server（支付/查询/退款），供开发者自建交易型智能体。</li>
+<li><b>C 端分发通道于 2026-07 关闭</b>：2026-07-04 千问推送《千问智能体服务下线提醒》，<b>用户自建智能体与拟人化互动类智能体于 2026-07-10~15 正式下线</b>，背景为《人工智能拟人化互动服务管理暂行办法》2026-07-15 施行 <span class="s2">②</span>。</li>
+<li><b>开发者收入或分成比例：<span class="s0">⊘ 从未披露</span>。</b></li>
+</ul>
+
+<h4>④ 未公开数据与替代指标</h4>
+<ul>
+<li>百炼客户数绝对值 <span class="s0">⊘</span> → 替代：8 倍增速 + AI 产品收入 89.71 亿元/季 + ARR 80 亿元（须标注为大盘口径）。</li>
+<li>日均 token 绝对值 <span class="s0">⊘</span> → 替代：10 倍增长率；或以火山/IDC 全市场 token 量反推份额（IDC 口径 2025 年火山 49.5%，阿里居其后）。</li>
+<li>RAG/知识库/Agent 应用调用的独立计费单位 <span class="s0">⊘</span> → 替代：向量检索为独立产品 DashVector 计价。</li>
+<li>夸克 App 第三方智能体分成机制 <span class="s0">⊘</span>。</li>
+</ul>
+
+  </div>
+</div>
+
+<!-- 火山 -->
+<div class="card" id="p-ark">
+  <div class="hd"><span class="name">2.5　火山引擎方舟 / 豆包 / 扣子（Coze）</span><span class="tag">API 应用模式</span><span class="tag">平台内模板市场（担保分账）</span></div>
+  <div class="bd">
+
+<h4>① 已公开的开发者 / 企业 / 智能体数量</h4>
+<table>
+<thead><tr><th style="width:210px">指标</th><th style="width:170px">数值</th><th style="width:100px">日期</th><th>口径与出处</th></tr></thead>
+<tbody>
+<tr><td><b>扣子月活跃开发者</b></td><td><b>&gt;300 万</b></td><td>2026 年 FORCE 大会</td><td>券商研报引火山官方口径，<b>月活开发者，非注册、非付费</b> <span class="s2">②</span></td></tr>
+<tr><td><b>使用方数量</b></td><td><b>&gt;150 万</b>企业和个人</td><td>2026-05-07</td><td>火山官方；<b>"企业+个人"合计口径，非注册开发者数，更非付费开发者数</b> <span class="s2">②</span></td></tr>
+<tr><td><b>重度客户数</b></td><td>累计 tokens &gt;1 万亿的企业客户：100 家 → <b>140 家</b></td><td>2025-12 → 2026-03</td><td><b>本研究中唯一按消耗量分层披露客户数的平台</b> <span class="s2">②</span></td></tr>
+<tr><td>Bot / 智能体总数（官方口径）</td><td colspan="3"><span class="s0">⊘ 未检索到 coze.cn 或字节官方通稿的直接数字</span></td></tr>
+</tbody>
+</table>
+
+<h4>② 生态规模指标：唯一持续披露 token 时间序列的中国平台</h4>
+<table>
+<thead><tr><th style="width:150px">时点</th><th style="width:180px">豆包大模型日均 Tokens</th><th>出处</th></tr></thead>
+<tbody>
+<tr><td>2024-05（首发）</td><td>约 1,200 亿</td><td>回溯口径 <span class="s2">②</span></td></tr>
+<tr><td>2025-12 底</td><td><b>63 万亿</b></td><td>每日经济新闻，2026-04-02 <span class="s2">②</span></td></tr>
+<tr><td>2026-03</td><td><b>&gt;120 万亿</b>（称中国第一、全球前三，仅次 OpenAI 与谷歌；较 2024-05 增长 1000 倍）</td><td>火山 AI 创新巡展·武汉站，谭待披露 <span class="s2">②</span></td></tr>
+<tr><td>2026-06</td><td><b>&gt;180 万亿</b>（过去一年增长超 10 倍）</td><td>2026 夏季 FORCE 原动力大会 <span class="s2">②</span></td></tr>
+</tbody>
+</table>
+<ul>
+<li><b>IDC 市场份额（公有云 MaaS，按 Token 调用量，剔除自有业务）</b>：2024 年 46.4% → 2025H1 49.2% → 2025 全年 <b>49.5%（中国第一）</b>。市场总量 2024 年 114 万亿 tokens → 2025 年 <b>1,944 万亿 tokens（+16 倍）</b>。<b>按营收口径 2025 年中国公有云 MaaS 市场仅 30.7 亿元</b>，火山占 40%+，其后为阿里云、百度智能云、智谱、移动云；IDC 预计 2026 年 token 消耗约 4 亿亿次、营收约 186 亿元 <span class="s2">②</span>（IDC，2026-05-07）。</li>
+<li><b>行业渗透率（官方口径）</b>：搭载超 <b>700 万辆</b>智能汽车、50+ 品牌/145 车型；全球 Top10 手机厂商 <b>9 家</b>深度合作、覆盖超 5 亿终端；约 <b>8 成</b>头部券商、8 成系统重要性银行、8 成 985 高校 <span class="s2">②</span>。</li>
+</ul>
+<div class="warn"><b>关键结构性断裂</b>：1,944 万亿 tokens/年的全市场调用量，对应的 MaaS 营收仅 <b>30.7 亿元</b>——折合约 <b>1.6 元/亿 tokens</b>。这说明中国 MaaS 市场的 token 单价已被压至近乎边际成本，<b>调用量指标与收入指标之间不存在可用的换算关系</b>，任何"以 token 量推算平台收入"的做法都会产生数量级误差。</div>
+
+<h4>③ 开发者收入与平台分成：中国唯一完整分账链路</h4>
+<div class="lead">
+<b>扣子模板商店《模板收入结算》官方文档（检索日 2026-08-04）</b> <span class="s1">①</span>：
+<ol style="margin-bottom:0">
+<li>模板商店<b>支持付费模板</b>，引入<b>抖音支付·商户通</b>；开发者需以"商户"身份入驻并开通支付宝或抖音支付收款账户（个人/团队/企业版均可）</li>
+<li>资金流：用户购买 → 资金进入<b>虚拟在途账户</b> → <b>等待 7 天后</b>，扣子按照"<b>预设的比例</b>"自动完成分账 → 商户在"商户管理"页发起提现</li>
+<li>须签署《扣子创作者模板服务条款（<b>担保模式</b>）》；微信支付渠道"正在审核中"</li>
+</ol>
+</div>
+<ul>
+<li><span class="hl"><b>关键缺口：官方文档仅表述为"预设的比例"，具体分成比例数值 <span class="s0">⊘ 未公开</span>。</b></span>网传"创作者留存 70–80%""插件调用分成 70%""按 DAU 分润"均出自 SEO 聚合站，<b>无官方出处，已剔除</b>（见附录 B）。</li>
+<li><b>豆包 App 内不存在第三方分发分成</b>：2026-07-03 晚发布《豆包智能体功能下线通知》，<b>智能体功能于 2026-07-15 下线</b>，用户无法新建、已建智能体无法调用；数据保留至 2026-10-15；引导迁移至猫箱 App <span class="s2">②</span>。</li>
+<li>火山引擎官网有"开发者激励计划"入口 <span class="s1">①</span>，但<b>激励金额与分成规则 <span class="s0">⊘ 未公开</span></b>。</li>
+<li><b>开发者收入总额：<span class="s0">⊘ 从未披露</span>。</b></li>
+</ul>
+
+<h4>④ 未公开数据与替代指标</h4>
+<ul>
+<li><b>扣子模板商店分账比例</b> <span class="s0">⊘</span> → 无可靠替代。可参照同类担保交易平台（抖音小程序、微信小商店）费率区间，但不得写入结论。</li>
+<li><b>Bot/智能体总数官方口径</b> <span class="s0">⊘</span> → 替代：扣子月活开发者 300 万；第三方称"扣子 2.0 已有超 200 万个用户创建的 Skill，日均调用 &gt;1000 次的热门 Skill 达 3.7 万个" <span class="s3">③</span>（存疑）。</li>
+<li><b>方舟当前统一免费 token 额度</b> <span class="s0">⊘</span> → 仅见限时活动（ArkClaw 千万 Tokens、CodingPlan 首月 9.9 元起、北京海淀模型券）。</li>
+<li><b>扣子专业版与 coze.com 国际版官方定价/分成</b> <span class="s0">⊘</span>。</li>
+</ul>
+
+  </div>
+</div>
+
+<!-- 百度 -->
+<div class="card" id="p-qianfan">
+  <div class="hd"><span class="name">2.6　百度千帆 / 文心（含文心智能体平台）</span><span class="tag">API 应用模式</span><span class="tag">流量分配型智能体市场</span><span class="tag">企业交付</span></div>
+  <div class="bd">
+
+<h4>① 已公开的开发者 / 企业 / 智能体数量</h4>
+<table>
+<thead><tr><th style="width:200px">指标</th><th style="width:170px">数值</th><th style="width:100px">日期</th><th>口径与出处</th></tr></thead>
+<tbody>
+<tr><td><b>千帆平台客户数</b></td><td><b>46 万+</b></td><td>2026-02</td><td>企业客户口径 <span class="s2">②</span></td></tr>
+<tr><td><b>千帆累计构建智能体</b></td><td><b>&gt;130 万个</b></td><td>2026-02</td><td>"累计支持企业构建"，<b>企业侧智能体，非 C 端 UGC</b> <span class="s2">②</span></td></tr>
+<tr><td>纳管模型数 / 工具组件调用</td><td><b>150+ SOTA 模型</b>；工具组件日均调用<b>亿级</b></td><td>2026-02</td><td>已接入 DeepSeek、MiniMax、Kimi、智谱等第三方模型 <span class="s2">②</span></td></tr>
+<tr><td><b>外部客户日均 Token 消耗</b></td><td><b>同比增长近 7 倍</b></td><td>2026-03</td><td>百度 2026Q1 财报电话会，<b>仅给增速，未给绝对值</b> <span class="s1">①</span></td></tr>
+<tr><td>文心智能体平台开发者/企业</td><td><b>80 万开发者 + 15 万企业</b>；<b>&gt;10 万个智能体接入商业组件</b></td><td>2024-11</td><td>百家号转载口径 <span class="s3">③</span>，<b>数据陈旧且来源等级偏低，2025–2026 未见更新口径</b>。同源另称 2024 年中为 16 万开发者 + 5 万企业 <span class="s2">②</span></td></tr>
+<tr><td>商领计划</td><td>4,000+ 开发者报名，上线有变现能力的智能体 5,000+</td><td>2024-11</td><td><span class="s3">③</span></td></tr>
+</tbody>
+</table>
+
+<div class="note"><b>收入口径警示</b>：百度 2026Q1 <b>AI 云基础设施收入 88 亿元（+79%）</b>，其中 <b>GPU 云 +184%</b>；<b>AI 应用收入 25 亿元（同比持平，环比 −7~10%）</b>；AI 原生营销服务 23 亿元（+35~36%）<span class="s1">①</span>。<b>均为大盘口径，不能代替开发者业务收入。</b>值得注意的是 AI 应用收入停滞，说明百度在"平台内应用变现"上尚未跑通规模化路径。</div>
+
+<h4>② 生态规模与市场地位</h4>
+<ul>
+<li><b>IDC（2025H1）</b>：中国 MaaS 市场规模 <b>12.9 亿元</b>（+421.2%）；AI 大模型解决方案市场 <b>30.7 亿元</b>（+122.1%）。百度智能云在 AI 大模型解决方案市场以 <b>16.6% 份额领跑</b>；在大模型中标市场以 <b>48 个中标项目、5.1 亿元中标金额</b>居"双第一" <span class="s2">②</span>。<b>这是"企业项目交付模式"最直接的量化证据。</b></li>
+<li><b>成本侧</b>：主动 Cache 模式（分布式 KVCache）称可为企业降低高达 <b>80%</b> 的推理成本；百舸推理加速使吞吐提升 20×、速度提升 50%+；昆仑芯已点亮三万卡集群 <span class="s2">②</span>。</li>
+<li><b>开源</b>：ERNIE 4.5 于 2025-06-30 开源，<b>Apache 2.0</b> 许可 <span class="s1">①</span>。<span class="und">HF/星河社区下载量与衍生模型数 <span class="s0">⊘ 未见官方统一披露</span>。</span></li>
+</ul>
+
+<h4>③ 开发者收入与平台分成：唯一的"流量分成"样本</h4>
+<div class="lead">
+百度是本研究中<b>唯一以广告与线索分成、而非交易抽佣</b>为主要开发者变现机制的平台。文心智能体平台官方文档提供两条变现路径 <span class="s1">①</span>：
+<ul style="margin-bottom:0">
+<li><b>广告分成</b>（<code>agents.baidu.com/docs/develop/component/adLead/ad_division/</code>）</li>
+<li><b>线索转化</b>（<code>agents.baidu.com/docs/develop/component/adLead/lead_conversion/</code>）——留资组件将高意向用户导向开发者本人的服务</li>
+</ul>
+</div>
+<ul>
+<li><b>平台原则</b>：百度副总裁、搜索总经理赵世奇提出"<b>易开发、有分发、有钱赚</b>"三原则 <span class="s3">③</span>。<b>核心资产是百度搜索每天几十亿次请求构成的天然分发池</b>——这意味着<b>开发者的获客成本部分由平台承担</b>，是与所有其他平台最根本的差异。</li>
+<li><b>百度云市场</b>对第三方服务商抽佣<b>最低 10%</b>（按类目浮动）<span class="s1">①</span><span class="und">（该费率页建议二次复核）</span>。</li>
+<li><b>典型案例（均为定性描述，无金额披露）</b>：心理咨询师"晓晓"通过打赏与深度 1 对 1 咨询获得持续收入；张嘉良律师通过留资组件将搜索流量转为正式业务；乔贵宾医生智能体提供诊前诊后服务 <span class="s3">③</span>。百度搜索·文心智能体创新大赛近万人参与、提交近 4,000 个智能体，<b>超 3 成获奖者已通过百度搜索分发变现</b> <span class="s3">③</span>。</li>
+<li><b>开发者分成总收入或个体收入金额：<span class="s0">⊘ 从未披露</span>。</b></li>
+<li><b>消费者侧</b>：文心一言 App 自 2025-04-01 起 C 端全面免费 <span class="s1">①</span>，<b>不存在消费者积分池</b>，因此不存在"订阅额度用于第三方应用"的问题。</li>
+</ul>
+
+<h4>④ 未公开数据与替代指标</h4>
+<ul>
+<li><b>文心智能体平台 2025–2026 最新开发者/智能体数</b> <span class="s0">⊘</span> → 替代：千帆侧 46 万客户 / 130 万智能体（企业口径）；2025-10 生态大会曾称企业客户超 46 万、Agent 超 130 万（与千帆口径重合，需谨慎）。</li>
+<li><b>千帆日均 token 绝对值</b> <span class="s0">⊘</span> → 替代：同比 7 倍增速；IDC MaaS 份额。</li>
+<li><b>广告分成/线索分成的具体分成比例</b> <span class="s0">⊘</span> → 无替代。</li>
+<li><b>ERNIE 开源生态下载量</b> <span class="s0">⊘</span> → 替代：昆仑芯适配的第三方模型清单（DeepSeek V4、GLM 5.1、MiniMax M2.7）作生态位代理。</li>
+</ul>
+
+  </div>
+</div>
+
+<!-- 智谱 -->
+<div class="card" id="p-zhipu">
+  <div class="hd"><span class="name">2.7　智谱 BigModel（北京智谱华章，02513.HK）</span><span class="tag">企业私有化交付（主）</span><span class="tag">API 应用模式</span><span class="tag">开发者订阅</span><span class="tag">MIT 开源</span></div>
+  <div class="bd">
+
+<div class="lead"><b>智谱是本研究中监管披露质量最高的样本。</b>作为"全球大模型第一股"，其港交所招股书（488 页，2025-12-19 通过聆讯披露）提供了迄今唯一一份完整的、经审计的大模型公司收入结构拆解。以下数据全部源自招股书或上市公告。</div>
+
+<h4>① 收入结构与商业模式（招股书口径）<span class="s1">①</span></h4>
+<table>
+<thead><tr><th style="width:190px">项目</th><th>2022</th><th>2023</th><th>2024</th><th>2025H1</th></tr></thead>
+<tbody>
+<tr><td><b>总收入</b></td><td>5,740 万元</td><td>1.245 亿元</td><td>3.124 亿元</td><td><b>1.91 亿元（+325% YoY）</b></td></tr>
+<tr><td>本地化（私有化）部署收入</td><td>5,481.5 万元</td><td>—</td><td>2.64 亿元</td><td><b>1.62 亿元（+5 倍）</b></td></tr>
+<tr><td><b>本地化部署占比</b></td><td><b>95.5%</b></td><td>—</td><td><b>84.5%</b></td><td><b>84.8%</b></td></tr>
+<tr><td>云端部署（MaaS/API）收入</td><td>2,594 万元</td><td>—</td><td>约 4,850 万元</td><td><b>2,910 万元</b></td></tr>
+<tr><td><b>云端部署占比</b></td><td>4.5%</td><td>—</td><td>15.5%</td><td><b>15.2%</b></td></tr>
+<tr style="background:#fff3bf"><td><b>本地部署毛利率</b></td><td>—</td><td>—</td><td><b>66.0%</b></td><td><b>59.1%</b></td></tr>
+<tr style="background:#fdeeed"><td><b>云端部署毛利率</b></td><td>—</td><td>—</td><td><b>3.4%</b></td><td><b>−0.4%</b></td></tr>
+<tr><td>整体毛利率</td><td>54.6%</td><td>64.6%</td><td>56.3%</td><td>50.0%</td></tr>
+<tr><td>净亏损</td><td>1.44 亿元</td><td>7.88 亿元</td><td>29.58 亿元</td><td>23.58 亿元</td></tr>
+<tr><td>研发投入（占收入比）</td><td>8,440 万（147%）</td><td>5.289 亿（425%）</td><td>21.954 亿（703%）</td><td>15.947 亿（<b>835%</b>）</td></tr>
+</tbody>
+</table>
+<div class="warn"><b>本研究最重要的单一数据点</b>：智谱云端 MaaS 业务毛利率 <b>2024 年 3.4%、2025H1 转为 −0.4%</b>，而本地化部署毛利率维持 <b>59–66%</b>。这意味着——<b>在经审计的口径下，中国大模型 API 批发业务本身不赚钱，甚至倒贴</b>。所有"API 应用模式"的平台经济学，都必须在这个事实之上重新审视。</div>
+
+<h4>② 已公开的开发者 / 企业客户 / 生态规模</h4>
+<table>
+<thead><tr><th style="width:230px">指标</th><th style="width:200px">数值</th><th style="width:110px">日期</th><th>口径</th></tr></thead>
+<tbody>
+<tr><td><b>开发者数量（注册口径）</b></td><td><b>&gt;4,500 万名</b></td><td>2025-09-30</td><td>招股书；<b>注册口径，务必与付费口径区分</b> <span class="s1">①</span></td></tr>
+<tr><td>MaaS 平台企业及应用开发者</td><td><b>&gt;270 万家</b></td><td>2025 年内</td><td>"国内最活跃的大模型 API 平台之一" <span class="s2">②</span></td></tr>
+<tr><td><b>付费开发者（GLM Coding Plan）</b></td><td><b>&gt;15 万</b>，来自 <b>184 个国家</b></td><td>上线两个月</td><td><b>本研究中极为罕见的"付费开发者"精确口径</b>；对应 <b>ARR 破 1 亿元</b> <span class="s1">①</span><span class="s2">②</span></td></tr>
+<tr><td><b>企业客户数</b></td><td>全球 <b>12,000 家</b>；机构客户 48 家（2022）→ 3,156 家（2024）→ <b>&gt;1.2 万家</b>（2025-09）</td><td>2025-09-30</td><td>招股书 <span class="s1">①</span></td></tr>
+<tr><td>终端设备</td><td>逾 <b>8,000 万台</b></td><td>2025-09-30</td><td>设备口径 <span class="s1">①</span></td></tr>
+<tr><td><b>日均 token 消耗</b></td><td>5 亿 → <b>4.6 万亿</b>（2025-06 末）→ <b>4.2 万亿</b>（2025-11）</td><td>2025-11</td><td>招股书；<b>注意 6 月至 11 月出现回落</b> <span class="s1">①</span></td></tr>
+<tr><td>市场地位</td><td>按 2024 年收入计中国 LLM 市场份额 <b>6.6%</b>，独立厂商第一、总体第二</td><td>2024</td><td>弗若斯特沙利文（招股书引用）<span class="s1">①</span></td></tr>
+<tr><td>OpenRouter 表现</td><td>GLM-4.5/4.6 调用量稳居<b>全球前 10</b>，<b>付费 API 收入超过所有国产模型之和</b></td><td>2025</td><td>招股书/媒体 <span class="s2">②</span></td></tr>
+</tbody>
+</table>
+
+<h4>③ 上市与战略取向</h4>
+<ul>
+<li>2025-12-30 启动招股，<b>2026-01-08 于港交所主板挂牌，股票代码 02513</b>；上市首日市值 <b>570–579 亿港元</b>；2025 全年收入<b>超 1 亿美元</b> <span class="s2">②</span>（证券时报）。</li>
+<li>募资净额 <b>70%（约 29 亿港元）</b>用于通用 AI 大模型研发，<b>10%（约 4.2 亿港元）</b>用于优化 MaaS 平台 <span class="s1">①</span>。</li>
+<li>管理层公开目标：CEO 张鹏称面向开发者的软件工具与模型业务（GLM Coding Plan）<b>ARR 超 1 亿元</b>，并计划<b>将 API 业务收入占比提升至 50%</b> <span class="s2">②</span>。当前云端占比 15.2%，董事长口径称"过去两年从 0 提升到 15%，预计中期持续提升"。</li>
+<li><b>行业背景</b>：2024 年中国 LLM 市场 53 亿元，其中<b>机构客户贡献 47 亿元、个人客户仅 6 亿元（机构占 89%）</b>；预计 2030 年增至 1,011 亿元，CAGR 63.5% <span class="s1">①</span>。<b>这解释了为何中国平台普遍走 B 端交付而非 C 端应用市场。</b></li>
+</ul>
+
+<h4>④ 开发者收入、分成与未公开数据</h4>
+<ul>
+<li><b>平台分成机制：<span class="s0">⊘ 不存在</span></b>。智谱清言 App 智能体中心与 MaaS 体验中心未见按比例抽成的付费分发条款。</li>
+<li><b>激励而非分成</b>："Z 计划" 10 亿元基金、开源基金 1,000 万现金 + 1,000 亿 tokens <span class="s1">①</span><span class="s2">②</span>——属<b>补贴性投入</b>，不构成收益分配机制。</li>
+<li><b>开源</b>：GLM-4.5/GLM-5 系列以 <b>MIT</b> 协议开源 <span class="s1">①</span>。<span class="und">HF 下载量与衍生模型数 <span class="s0">⊘ 未见统一官方披露</span>。</span></li>
+<li><b>未公开</b>：开发者分成总收入 <span class="s0">⊘</span>；智能体分发抽成明细 <span class="s0">⊘</span>；私有化中标项目的完整清单 <span class="s0">⊘</span>（有媒体称深圳智慧城市项目约 9,390 万元 <span class="s2">②</span>，公告 URL 未核，本报告不作为事实引用）。</li>
+<li><b>替代指标</b>：用 GLM Coding Plan 的"15 万付费开发者 / ARR 1 亿元"倒推<b>人均年付费约 667 元</b>，与订阅档位（Lite ¥49 / Pro ¥149 / Max ¥469 每月）交叉验证，可推断付费用户以 Lite/Pro 档为主。<b>这是本研究中唯一可做此类交叉验证的平台。</b></li>
+</ul>
+
+  </div>
+</div>
+
+<!-- Poe -->
+<div class="card" id="p-poe">
+  <div class="hd"><span class="name">2.8　Poe（Quora）</span><span class="tag">积分型机器人市场模式（唯一完整样本）</span></div>
+  <div class="bd">
+
+<h4>① 积分体系与订阅档位 <span class="s1">①</span></h4>
+<table>
+<thead><tr><th style="width:150px">档位</th><th style="width:170px">月度积分额度</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>Free</td><td><b>1 万点 / 天</b></td><td>每 24 小时重置，<b>不结转</b></td></tr>
+<tr><td>$4.99 / 月</td><td>—</td><td>2025-03-25 新增的低价档 <span class="s2">②</span></td></tr>
+<tr><td>$19.99 / 月</td><td><b>66 万点</b></td><td><span class="hl">2025-07 时为 100 万点，已下调 34%，Poe 未发布公告</span></td></tr>
+<tr><td>$49.99 / 月</td><td><b>165 万点</b></td><td>原 250 万点</td></tr>
+<tr><td>$99.99 / 月</td><td><b>330 万点</b></td><td>原 500 万点</td></tr>
+<tr><td>$249.99 / 月</td><td><b>825 万点</b></td><td>原 1,250 万点</td></tr>
+</tbody>
+</table>
+<ul>
+<li><b>积分参考单价 $30 / 100 万点</b>（1,000 点 ≈ $0.03）；加购积分<b>有效期 1 年，不可退款/转让/兑现</b>，经 Stripe 支付 <span class="s1">①</span>。</li>
+<li>Poe <b>不发布静态"每模型每条消息点数表"</b>——点数随模型与 token 动态计算，用户在 bot 页 "Rates" 按钮或 Settings→View Points History 查看 <span class="s1">①</span>。可举证实例：GPT-4o 生成 1024×1024 低质图约 <b>328 点</b> <span class="s2">②</span>。缓存折扣：部分 OpenAI 模型 50%、部分 Anthropic 模型 90% <span class="s1">①</span>。</li>
+</ul>
+<p class="note"><b>年付订阅额度的静默下调（2025-07 → 2026-08，−34%）是"积分制"最重要的制度特征</b>：平台可在不改变名义订阅价的前提下，通过调整积分兑换量单方面改变实际单价。这是法币计价体系无法实现的操作。</p>
+
+<h4>② 成本归属：本研究中最反直觉的发现</h4>
+<div class="lead">
+Poe 官方文档《How We Cover Your Costs》原文 <span class="s1">①</span>：<br>
+"<i><b>Our intent is to cover all model inference costs and any other significant per-message costs involved in operating any bot on Poe.</b></i>"
+<ul style="margin-bottom:0">
+<li><b>prompt bot / 使用 bot query API 的 server bot</b>：调用 Poe 已接入模型的推理成本"automatically covered by Poe" → <b>创作者设定的 price per message 是净加价（takeaway），无需从中扣除模型费</b></li>
+<li><b>自带模型的 server bot</b>：Poe 称"we can work with you to pay your model inference costs"；微调开源模型须托管于 Fireworks/Together/Replicate 并<b>向 Poe 开放 per-token/per-item 成本可见性</b>；甚至 web search API 等外部成本"likely 也可覆盖"。若成本过高，Poe 可能<b>限制该 bot 仅对订阅用户开放</b></li>
+<li><b>Script Bots</b>（2025-11-21）：Python 运行于 Poe 安全环境，"<b>创作者无需操心基础设施或成本管理</b>" <span class="s1">①</span></li>
+</ul>
+</div>
+<p><b>结论</b>：Poe <b>不是</b>"创作者自付算力 + 平台抽点"的模式，而是"<b>平台兜底成本、创作者赚取净加价</b>"。抽成体现在 <b>Poe 对用户端积分定价的加成</b>——用户看到的积分价是 "your price + our costs" 的<b>聚合值</b>，创作者<b>无法观测该聚合过程</b>。</p>
+
+<h4>③ 定价权、分成与结算</h4>
+<table>
+<thead><tr><th style="width:170px">维度</th><th>规则</th></tr></thead>
+<tbody>
+<tr><td><b>价格上限</b></td><td><b>每 1,000 条消息最高 $10,000</b>，官方称"用于覆盖运行昂贵或含高度专业化知识库的 API bot" <span class="s1">①</span></td></tr>
+<tr><td><b>改价自由度</b></td><td>可<b>随时改价、无频次限制</b>，最长 24 小时生效；但官方明确警告"<b>高价与频繁改价会影响你在 Poe 上的分发</b>" <span class="s1">①</span> —— <span class="hl">这是"名义定价自由 + 实质分发惩罚"的典型治理结构</span></td></tr>
+<tr><td><b>计价单位</b></td><td>创作者<b>直接以美元定价</b>（官方示例为"每 1,000 条消息的美元价"），或用 Monetization API（beta）以 <code>amount_usd_milli_cents</code>（千分之一美分）动态计价 <span class="s1">①</span></td></tr>
+<tr><td><b>分成比例</b></td><td><b><span class="s0">⊘ 官方从未公布</span></b>。抽成完全隐含在"用户端积分定价 − 创作者美元定价"的价差中，官方仅以 "an aggregate of the price you set and our costs" 一句带过</td></tr>
+<tr><td><b>结算</b></td><td>渠道 <b>Stripe</b>；提现门槛<b>累计收益 ≥$10</b>；周期<b>月末后 30–45 天</b>（1 月收益 → 2/28–3/15 到账）；须在加入后 <b>90 天内</b>补齐税务信息 <span class="s1">①</span></td></tr>
+<tr><td><b>地域限制</b></td><td>仅 <b>23 个国家/地区</b>（美、英、加、澳、日、新、港、印、墨、阿根廷、哥伦比亚及多个欧洲国家），<b>不含中国大陆</b> <span class="s1">①</span></td></tr>
+<tr><td><b>历史机制（已消失）</b></td><td>2023-10 的订阅归因 bounty：每笔月度订阅预留 <b>$10</b>、年度订阅 <b>$20</b>，在成功归因的创作者间分配 <span class="s2">②</span>。<b>现行官方 FAQ 已无任何相关表述</b>，资格表仅剩 "Eligible for Price per message" 一列。是否正式下线未见公告</td></tr>
+</tbody>
+</table>
+
+<h4>④ 生态数据与开发者收入</h4>
+<ul>
+<li><b>官方唯一收入表述</b>（2025-11-21 博客）："<i>creator monetization program, which is <b>paying our top creator hundreds of thousands of dollars per year</b></i>" <span class="s1">①</span>。<b>这是全网唯一官方级的 Poe 创作者收入数字。</b></li>
+<li><b>bot 数量、创作者数量、订阅用户数、MAU、Poe 收入/ARR：<span class="s0">⊘ 全部未公开</span></b>。官方口径仅"millions of users"与"200+ models"。</li>
+<li>早期第三方估算（仅移动端）：2023-10 累计安装 1,840 万、MAU 约 122 万 <span class="s2">②</span> Apptopia。2024-01 a16z 领投 $75M，D'Angelo 称多数资金用于<b>支付 Poe 创作者</b> <span class="s2">②</span>。</li>
+<li><b>Poe API（2025-07-31）</b>：OpenAI 兼容 <code>/v1/chat/completions</code>，<b>不另收费，直接消耗订阅积分</b>；覆盖 100+ 文/图/音/视频模型；可驱动 Cursor/Cline/Continue/Roo <span class="s2">②</span>。<b>这意味着 Poe 的积分池同时服务于消费者聊天与开发者编程调用——是本研究中唯一打通两者的额度体系。</b></li>
+<li><b>Poe Apps（2025-02-25）</b>：自然语言生成可视化 App，调用模型扣用户积分；官方当时明示"未来将让创作者直接从 App 赚钱" <span class="s2">②</span>。<span class="und">2026 年未检索到新增的独立创作者变现渠道。</span></li>
+</ul>
+
+<h4>⑤ 未公开数据与替代指标</h4>
+<ul>
+<li><b>平台抽成比例</b> <span class="s0">⊘</span> → <b>可构造的替代估计</b>：给定用户端积分参考单价 $30/百万点，若已知某 bot 的用户端点数与创作者美元报价，即可计算隐含抽成。但该数据仅创作者本人可见，无法外部核算。</li>
+<li><b>累计支付创作者总额</b> <span class="s0">⊘</span> → 替代：a16z $75M 轮次中"多数资金用于支付创作者"的定性表述（2024-01），可作量级下界的弱代理。</li>
+<li><b>创作者数量 / bot 数量</b> <span class="s0">⊘</span> → 无有效替代。</li>
+</ul>
+
+  </div>
+</div>
+
+<!-- 对照 -->
+<div class="card" id="p-ctrl">
+  <div class="hd"><span class="name">2.9　对照组：OpenRouter / Hugging Face / Character.AI</span><span class="tag">透明度光谱的三个端点</span></div>
+  <div class="bd">
+
+<div class="grid2">
+<div>
+<h4>OpenRouter（显式费率 + 声明零加价）</h4>
+<ul>
+<li><b>充值手续费 5.5%（最低 $0.80）</b>；加密支付 5% <span class="s1">①</span>（2024 年口径为 "5% + $0.35"，已变更）</li>
+<li>官方明确："<i>We pass through the pricing of the underlying providers; <b>there is no markup on inference pricing</b> (however we do charge a fee when purchasing credits)</i>" <span class="s1">①</span></li>
+<li><b>BYOK</b>：每月前 100 万次请求免费，超出按同模型同 provider 正常价的 <b>5%</b> <span class="s1">①</span></li>
+<li>规模（官网实时，2026-08-04）：月处理 <b>100T tokens</b>、<b>10M+ 用户</b>、70+ providers、400+ models、<b>250k+ apps</b> 覆盖 4.2M+ 终端用户 <span class="s1">①</span></li>
+<li>2026-05-28 CapitalG 领投 <b>$113M B 轮</b>，披露周处理 25T tokens、8M+ 开发者，全年预计超 1 quadrillion tokens <span class="s2">②</span></li>
+<li><b>结构定位</b>：收入 100% 来自<b>显式、可核算的手续费率</b>；无第三方创作者分成层，开发者是付费方而非收款方</li>
+</ul>
+</div>
+<div>
+<h4>Hugging Face（零加价 + 零分成）</h4>
+<ul>
+<li>订阅：<b>PRO $9/月、Team $20/席/月、Enterprise $50/席/月</b> <span class="s1">①</span></li>
+<li><b>ZeroGPU 免费</b>（RTX Pro 6000 Blackwell，最高 96GB VRAM），PRO 享 8× 配额与最高队列优先级</li>
+<li>GPU Spaces：T4-small $0.40/h、1×L4 $0.80/h、A100-large $2.50/h、8×A100 $20/h</li>
+<li><b>Inference Providers 明确 pass-through</b>："<i>Hugging Face charges you the same rates as the provider, <b>with no additional fees</b>. We just pass through the provider costs directly.</i>" <span class="s1">①</span>。月赠额：Free $0.10 / PRO $2 / Team-Ent $2 每席</li>
+<li>存储：公开 $12/TB/月、私有 $18/TB/月</li>
+<li>规模：<b>2M+ 模型、500k+ 数据集、1M+ Spaces、50,000+ 组织、13M 用户</b> <span class="s1">①</span></li>
+<li><span class="hl"><b>生态集中度</b>：Top 200 模型（占 0.01%）吃掉 <b>49.6%</b> 全站下载；约一半模型总下载 &lt;200 次 <span class="s1">①</span></span> —— <b>这是本研究中唯一公开的"开发者收益分布"代理指标</b></li>
+</ul>
+</div>
+</div>
+
+<h4>Character.AI（海量 UGC + 零货币化：负样本）</h4>
+<ul>
+<li><b>无创作者收入分成。</b>2026-06-17 发布的"创作者新功能"全套仅为 Creator Guide、Creator Insights（互动数/粉丝/点赞/发现量）、Creator Following Tab、Creator Leaderboards——<b>全部是曝光与数据工具，零现金分成、零收入分享条款</b> <span class="s1">①</span></li>
+<li><b>Charms</b>（2025-12）是面向<b>用户</b>（非创作者）的虚拟货币：签到/任务赚取，兑换额外图像生成、突破 slow-mode、跳过广告；<b>创作者不参与 Charms 收益</b> <span class="s1">①</span></li>
+<li>2026-07-09 推出 (c.ai) series 微短剧，由<b>内部工作室团队</b>制作，非 UGC 分成产品 <span class="s1">①</span></li>
+<li>角色数/创作者数/MAU：官方仅表述 "millions of Characters"，<b>具体数字 <span class="s0">⊘</span></b></li>
+<li><b>研究价值</b>：Character.AI 证明了"<b>海量 UGC 供给可以在零货币化条件下长期维持</b>"——这对"分成是开发者进入的必要条件"这一假设构成直接反驳，详见第三部分。</li>
+</ul>
+
+<h4>补充对照：Perplexity Comet Plus</h4>
+<p>Comet Plus <b>$5/月</b>，将该订阅收入的 <b>80% 返还给内容出版方</b> <span class="s2">②</span>。这是<b>内容方</b>分成而非开发者应用分成，但它是同类"订阅池分配"机制中<b>唯一公开明确百分比</b>的案例，可作为 Poe"不公布比例"的制度反面参照——<b>证明公开分成比例在技术与商业上完全可行，不公开是选择而非约束</b>。</p>
+
+<p class="note"><b>严格符合"消费者订阅额度同时可用于平台自有模型与第三方开发者应用、且开发者能从中收款"的平台，除 Poe 外未检索到第二家。</b>OpenRouter 是纯开发者付费侧、无消费者订阅；Hugging Face 有额度但无第三方分成层；Character.AI 有第三方内容但无额度分成。</p>
+
+  </div>
+</div>
+
+<!-- ============ 3 ============ -->
+<h2 id="s3"><span class="num">3</span>第三部分：学术化总结</h2>
+
+<div class="lead">
+本节从八家主体平台与三家对照平台的实证材料中，提炼五个跨模式的共同机制。核心命题是：<b>AI 平台的开发者盈利模式，本质上不是"平台如何分配收益"的问题，而是"平台是否具备观测下游交易的技术能力，以及它是否选择行使这一能力"的问题。</b>观测能力决定分成可能性，而是否行使则由平台在"生态规模最大化"与"当期利润最大化"之间的权衡决定。
+</div>
+
+<h3>3.1　纵向定价关系：一个被压缩至负值的中间层</h3>
+
+<div class="thesis">
+<h4>命题一：平台 API 价格与开发者应用零售价之间，不存在稳定的加成率结构，因为中间层的毛利已被竞争压至零附近。</h4>
+
+<p>传统平台经济学中，上游要素价格 <i>c</i> 与下游零售价 <i>p</i> 之间通过双重加成（double marginalization）联系，平台的定价权体现在其对 <i>c</i> 的控制。但 AI 平台的实证材料显示了一个不同的结构：</p>
+
+<div class="formula">
+智谱招股书（经审计，2025H1）：<br>
+&nbsp;&nbsp;云端 MaaS 部署毛利率 = <b>−0.4%</b>　（2024 年为 +3.4%）<br>
+&nbsp;&nbsp;本地化私有部署毛利率 = <b>+59.1%</b>　（2024 年为 +66.0%）<br><br>
+IDC（2025 全年，中国公有云 MaaS）：<br>
+&nbsp;&nbsp;全市场 token 调用量 = <b>1,944 万亿 tokens</b>　　全市场营收 = <b>30.7 亿元</b><br>
+&nbsp;&nbsp;→ 隐含单价 ≈ <b>1.6 元 / 亿 tokens</b>
+</div>
+
+<p>这两组数字共同表明：<b>API 批发（"API 应用模式"的平台侧）在中国市场已不是一门有毛利的生意</b>。价格的下行不是市场出清的结果，而是竞争性定价（competitive pricing）叠加自研芯片、缓存技术、MoE 并行等成本侧创新共同作用的结果——火山 2024-05 将 doubao-pro-32k 定至 0.0008 元/千 token（自称较同业低 99.3%）触发行业降价潮，2025-06 豆包 1.6 进一步取消能力分档、改按输入长度分档，综合成本再降 63%；百度以主动 Cache 模式宣称降推理成本 80%；阿里的显式缓存命中价为标准输入价的 10%，且<b>明确规定缓存折扣与 Batch 折扣不可叠加</b>——后者是平台在极低价格下守住成本底线的技术性防御。</p>
+
+<p>其直接推论是：<b>开发者应用的零售价与平台 API 价格之间的关系，从"成本加成"退化为"成本无关"</b>。当 token 成本占开发者可变成本的比例降至个位数百分比时，开发者的定价锚点转向价值定价（value-based pricing）而非成本定价。百度千帆产品负责人张婷的表述精确捕捉了这一转变："计费方式可能从'按词元数'演变成'按任务结果'……某电商客户不关心每次对话消耗了多少词元，只关心解决了多少客诉、节省了多少人工成本。"其"蒂彩工艺"案例中，客户付费依据是"30 秒完成 3 小时的工作"，效率提升 360 倍——<b>定价锚点从投入侧（token）迁移至产出侧（任务结果）</b>。</p>
+
+<p>唯一的例外是 Poe：由于平台兜底全部推理成本，创作者的 price per message 是纯粹的价值定价，与底层 token 成本完全解耦。<b>Poe 因此提供了一个"零成本约束下的开发者定价行为"的天然实验</b>：即便在此条件下，平台仍设置了每千条消息 $10,000 的上限，并以"高价影响分发"作为软约束——说明<b>平台对下游价格的干预动机，并不来源于成本传导，而来源于对用户体验与生态健康的治理需求</b>。</p>
+</div>
+
+<h3>3.2　成本承担：三种截然不同的算力责任分配</h3>
+
+<div class="thesis">
+<h4>命题二：模型调用与算力成本的承担方式，将平台分为三种制度类型，且该类型与平台能否抽成严格对应。</h4>
+
+<table>
+<thead><tr><th style="width:150px">类型</th><th style="width:180px">算力成本承担方</th><th style="width:200px">代表平台</th><th>抽成可能性</th></tr></thead>
+<tbody>
+<tr><td><b>I. 开发者自担</b></td><td>开发者向平台购买 token，全部推理成本内化为开发者成本</td><td>OpenAI、Anthropic、DeepSeek、百炼、方舟、千帆、BigModel、OpenRouter</td><td><b>无法抽成</b>——平台已在上游完成价值捕获，且无法观测下游交易</td></tr>
+<tr><td><b>II. 平台兜底</b></td><td>平台承担全部模型推理成本（含自带模型的协商覆盖）与基础设施</td><td><b>Poe</b>（唯一）</td><td><b>必然抽成</b>——平台已垫付成本，必须通过用户端定价回收，抽成是结构性必需</td></tr>
+<tr><td><b>III. 平台全担且不分配</b></td><td>平台承担全部成本，创作者零成本、零收入</td><td><b>Character.AI</b></td><td><b>不抽成也不分成</b>——价值 100% 归平台</td></tr>
+</tbody>
+</table>
+
+<p>类型 I 的关键性质是：<b>平台在开发者付费购买 token 的瞬间就已完成全部价值捕获</b>。此后开发者赚多少，与平台无关，平台也无从知晓。这解释了一个反复出现的现象——<b>类型 I 平台的官方文档中普遍不存在分成条款，且这一"缺席"是结构性的而非疏漏</b>：Anthropic 商用条款全文无分成字段；OpenAI Apps SDK 货币化文档推荐 external checkout 并明确"payment, billing, taxes, refunds, and compliance are handled entirely on your domain"；DeepSeek License FAQ 更是明示"不会主张开发者获得的任何收益"。</p>
+
+<p><b>"不抽成"与"不结算"是同一枚硬币的两面。</b>OpenAI 选择让开发者在自有域名完成结算，就等于选择放弃观测能力，也就等于选择放弃抽成能力。反之，扣子模板商店之所以能够分账，正因为它建立了"抖音支付商户通 + 虚拟在途账户 + 7 天担保期"的完整结算链路——<b>先有结算权，才有分成权</b>。</p>
+
+<p>值得注意的是 Anthropic 的<b>反向分成</b>：其 15–20% 的 ARR 经 AWS Bedrock 等间接渠道产生，需向云厂商支付约 20% 渠道分成 <span class="s2">②</span>。这提示了一个常被忽视的事实——<b>在多层分销的 AI 供应链中，模型厂商自身也可能是"向平台付费"的一方</b>，平台角色是相对的而非绝对的。</p>
+</div>
+
+<h3>3.3　平台如何参与收益分配：四种工具及其可观测性排序</h3>
+
+<div class="thesis">
+<h4>命题三：平台参与开发者收益分配的四种工具（佣金、流量、积分、结算规则）在"可观测性"上呈严格递减，而平台对工具的选择恰与其不愿被观测的程度正相关。</h4>
+
+<table>
+<thead><tr><th style="width:110px">工具</th><th style="width:190px">典型实例</th><th style="width:110px">可观测性</th><th>制度性质</th></tr></thead>
+<tbody>
+<tr><td><b>显式佣金</b></td><td>百度云市场 ≥10%；OpenRouter 充值费 5.5%、BYOK 5%；Perplexity 返还出版方 80%</td><td><b>高</b>（公开百分比）</td><td>契约化、可核算、可诉讼</td></tr>
+<tr><td><b>流量分配</b></td><td>百度搜索智能体分发（广告分成/线索转化）；Anthropic Claude Marketplace 将企业承诺额度导向伙伴；OpenAI "达到更高设计标准的应用可获更高曝光"</td><td><b>中</b>（规则公开、权重不公开）</td><td>裁量性、不可诉、事后可撤回</td></tr>
+<tr><td><b>积分定价</b></td><td>Poe：$30/百万点由平台单方设定；<b>2025-07 至 2026-08 各档积分额度静默下调 34%</b></td><td><b>低</b>（兑换率公开、抽成隐含）</td><td>货币发行权；可在名义价格不变下改变实际单价</td></tr>
+<tr><td><b>结算规则</b></td><td>扣子"7 天在途 + 预设比例"（比例不公开）；Poe "月末后 30–45 天 + $10 门槛 + 23 国限制"；OpenAI ACP "small fee"（未量化）</td><td><b>最低</b>（比例与时点均不公开）</td><td>现金流占用 + 沉默抽成 + 地域排除</td></tr>
+</tbody>
+</table>
+
+<p>本研究最值得注意的实证发现是：<b>拥有真实分成机制的平台，恰恰是最不愿公布分成比例的平台</b>。Poe 有真实的现金分成（官方承认"支付给头部创作者每年数十万美元"），却从未公布分成百分比；扣子有完整的自动分账链路，官方文档却仅表述为"预设的比例"；OpenAI 的 ACP 仅称 "small fee"。反之，明确声明<b>不加价</b>的 OpenRouter 与 Hugging Face 却把费率写得一清二楚。</p>
+
+<p>这构成一个<b>透明度悖论</b>：<b>费率的公开程度与平台从该费率中获利的程度呈负相关。</b>其机制并不神秘——公开费率意味着接受横向比较与舆论约束，而隐含抽成允许平台在不引发集体反应的前提下持续调整。Poe 在 13 个月内将各档积分额度下调 34% 而未发布任何公告，是这一机制最清晰的实证。</p>
+
+<p>Perplexity Comet Plus 公开"80% 返还出版方"的做法，恰恰证明了<b>公开分成比例在技术与商业上完全可行</b>。因此，Poe 与扣子的不公开是<b>策略选择而非结构约束</b>。</p>
+</div>
+
+<h3>3.4　定价权与治理权：名义自由与实质约束的分离</h3>
+
+<div class="thesis">
+<h4>命题四：开发者的定价权在名义上普遍完整，但其实际行使受到"分发惩罚"这一非价格治理工具的系统性约束；定价权与治理权不是零和的，而是分层的。</h4>
+
+<p>观察八家平台的定价权配置，可以看到一个高度一致的模式：<b>几乎没有平台明文限制开发者的终端定价</b>。Anthropic 商用条款无定价限制；DeepSeek 明示不主张任何收益；OpenAI 官方文档写明"developers are responsible for choosing how to monetize"；智谱、百炼同样不干预。</p>
+
+<p>但"不限制价格"不等于"不影响价格"。Poe 提供了最精确的样本，其规则包含三层：</p>
+<ol>
+<li><b>硬性上限</b>：每 1,000 条消息 $10,000——这是明文的、可核查的价格天花板</li>
+<li><b>软性惩罚</b>："高价与频繁改价<b>会影响你在 Poe 上的分发</b>"——这是<b>非价格的、裁量性的、不可申诉的</b>约束</li>
+<li><b>信息不对称</b>：用户看到的是 "your price + our costs" 的<b>聚合积分值</b>，创作者无法观测该聚合过程，因而<b>无法准确预判自己的定价对用户实际支付的影响</b></li>
+</ol>
+
+<p>第 2 层是关键。<b>分发权是比定价权更高阶的权力</b>：定价权决定单笔交易的分配，分发权决定交易是否发生。当平台同时掌握"允许你自由定价"与"根据你的定价决定是否给你流量"两项权力时，<b>名义定价自由在实质上被转化为平台偏好的自我实现</b>。OpenAI 的表述结构完全相同——"符合开发者指南的应用均具备上架资格，而<b>设计与功能方面达到更高标准的应用，则可在目录和对话中获得更高的曝光</b>"，标准的定义权与判定权均在平台。</p>
+
+<p>百度是这一逻辑的极端形态：其开发者变现完全依赖广告分成与线索转化，<b>单价由百度广告/线索体系而非开发者设定</b>。开发者事实上放弃了定价权，换取的是百度搜索"每天几十亿次请求"的分发池——即<b>用定价权交换获客成本的外部化</b>。这是本研究中唯一明确的"定价权—获客成本"交换案例，也解释了为何百度选择流量分成而非交易抽佣：<b>当平台承担了获客，它就有理由分享收入；当平台只提供 token，它就没有。</b></p>
+
+<p>一个重要的制度外生冲击是：2026 年 7 月，豆包与千问在同一窗口（7 月 10–15 日）下线 C 端用户自建智能体，背景为《人工智能拟人化互动服务管理暂行办法》2026-07-15 施行。<b>这表明在中国市场，平台治理权之上还存在监管治理权，开发者的分发通道可以被第三方规则整体关闭</b>——两家头部平台的 C 端智能体分发通道同时消失，开发者分发重心被迫回退至 B 端与工具侧（扣子、飞书、抖音；百炼 API/云市场）。<b>这是"平台风险"之上的"制度风险"，在任何以美国平台为样本的研究中都不会出现。</b></p>
+</div>
+
+<h3>3.5　开发者进入、应用质量与生态规模：分成不是充分条件，也不是必要条件</h3>
+
+<div class="thesis">
+<h4>命题五：开发者进入规模与平台分成机制之间不存在稳定的正相关；决定进入的是"分发确定性 × 成本可承受性"，而非"收益分配比例"。</h4>
+
+<p>如果分成是开发者进入的驱动力，我们应观察到：有分成的平台开发者更多。实证材料给出了相反的图景：</p>
+
+<table>
+<thead><tr><th style="width:170px">平台</th><th style="width:130px">是否有分成</th><th style="width:200px">开发者/创作者规模（官方口径）</th><th>解释</th></tr></thead>
+<tbody>
+<tr><td>OpenAI</td><td><b>无</b></td><td><b>400 万注册开发者</b></td><td>分发确定性极高（9 亿周活）+ 成本可控（token 单价持续下行）</td></tr>
+<tr><td>智谱</td><td><b>无</b></td><td><b>4,500 万注册开发者</b>（注册口径）<br><b>15 万付费开发者</b>（GLM Coding Plan）</td><td>免费模型（GLM-4-Flash 等）将进入成本降至零；付费转化率约 0.33%</td></tr>
+<tr><td>扣子 Coze</td><td><b>有</b>（担保分账）</td><td>月活跃开发者 <b>&gt;300 万</b></td><td>规模可观，但分成机制上线时间短，难以归因</td></tr>
+<tr><td>Character.AI</td><td><b>无</b>（且明示无）</td><td>"millions of Characters"</td><td><b>零货币化条件下 UGC 供给依然充沛</b>——直接反驳"分成必要论"</td></tr>
+<tr><td>Poe</td><td><b>有</b>（真实现金）</td><td><b><span class="s0">⊘ 创作者数未公开</span></b></td><td>不公开本身即是信号：若规模可观，公开有利于招募</td></tr>
+</tbody>
+</table>
+
+<p>Character.AI 是最锋利的反例：<b>它拥有海量 UGC 创作者，却提供零现金分成</b>，2026-06 推出的创作者工具全套仅为曝光与数据看板（Leaderboards、Insights、Following Tab），Charms 虚拟货币也是面向用户而非创作者。这说明<b>在内容创作类场景中，声誉、社群地位与自我表达可以完全替代货币激励</b>。</p>
+
+<p>与之对称的是 Hugging Face：<b>对模型作者零分成</b>，却拥有 2M+ 模型与 13M 用户。其官方披露的分布数据尤其重要——<b>Top 200 模型（占全站 0.01%）吃掉 49.6% 的全站下载，约一半模型的总下载量不足 200 次</b>。这是本研究中<b>唯一公开的开发者收益（此处为注意力）分布数据</b>，其形态是典型的幂律分布。</p>
+
+<p>将该分布与 Poe 的官方表述并置，可以得到一个重要推论：Poe 称"支付给<b>头部</b>创作者每年数十万美元"——<b>刻意的单数表述本身暗示了极端的收益集中</b>。若中位创作者收入可观，平台的宣传激励会促使其公布均值或中位数；选择只公布头部单点，正说明分布高度偏斜。<b>因此，可以合理推断（但不可作为事实断言）：积分型市场的创作者收益分布，与 Hugging Face 的下载量分布同构——幂律、长尾、中位数接近于零。</b></p>
+
+<p>那么什么决定了开发者进入？实证材料指向两个变量的乘积：</p>
+<div class="formula">
+开发者进入意愿 ≈ <b>分发确定性</b> × <b>成本可承受性</b>
+<br><br>
+· <b>分发确定性</b>：OpenAI 9 亿周活 / 百度搜索几十亿次日请求 / 抖音生态——平台自带的、开发者无法自建的用户触达<br>
+· <b>成本可承受性</b>：智谱 GLM-4-Flash 免费、火山限时千万 token 包、百炼 90 天 100 万 token 免费额度、Poe 平台全额兜底——<b>把首次尝试的边际成本压至零</b><br><br>
+收益分配比例，在这个函数中是<b>三阶变量</b>。
+</div>
+
+<p>这也解释了中国平台普遍采取的"<b>免费额度 + 开源权重 + 补贴基金</b>"组合（智谱 Z 计划 10 亿元基金 + 开源基金 1,000 万现金 + 1,000 亿 tokens；火山模型券；百炼 90 天免费额度）：<b>这些都是在降低进入成本，而非提高收益分配</b>。平台的隐含判断是：<b>开发者的进入弹性对成本远高于对收益</b>。</p>
+
+<p>最后，关于<b>应用质量与生态规模的关系</b>，GPT Store 的历史提供了一个负面教训：2024 年初 GPT Store 以零门槛换取数量，结果陷入低质泛滥；2025-10 的 Apps SDK 则反转策略——要求实名验证、服务器验证、功能测试、审核前置、年龄分级，<b>用准入门槛换质量</b>。OpenAI 官方明确"符合指南的应用均可上架，达到更高设计与功能标准的应用可获更高曝光"，即<b>用分发权而非准入权做质量分级</b>。这是从"App Store 式的准入治理"向"推荐算法式的曝光治理"的迁移，也再次印证了命题四：<b>在 AI 平台上，分发权是比准入权更精细、也更强大的治理工具。</b></p>
+</div>
+
+<h3>3.6　综合：一个关于"观测能力"的统一解释</h3>
+
+<div class="lead">
+<p>把五个命题合并，可以得到一个统一的解释框架：</p>
+<ol>
+<li><b>AI 平台的默认状态是"不分成"</b>，因为 API 应用模式下平台已在上游完成价值捕获，且下游交易发生在平台视野之外（命题二）。八家主体平台中，六家不存在任何形式的应用收益分成。</li>
+<li><b>分成的前提是结算权，结算权的前提是观测能力。</b>扣子建立了担保交易链路才有分账；百度建立了广告与线索计费系统才有流量分成；Poe 发行了内部货币才有隐含抽成。OpenAI 选择 external checkout，就等于选择放弃这三者（命题三）。</li>
+<li><b>一旦平台获得观测能力，它同时获得的是不透明的定价权。</b>积分制、担保期、结算周期、地域限制——这些工具的共同特征是<b>把可核算的百分比转换为不可核算的规则</b>。费率的公开程度与获利程度负相关（命题三的透明度悖论）。</li>
+<li><b>开发者的定价权在名义上完整，但被分发权实质性约束。</b>价格上限、"高价影响分发"、"更高标准获更高曝光"——平台不需要限制价格，只需要保留决定谁被看见的权力（命题四）。</li>
+<li><b>而这一切对开发者进入规模的影响，远小于免费额度与流量池的影响。</b>Character.AI 与 Hugging Face 证明零分成不阻碍供给；智谱的 4,500 万注册 / 15 万付费（0.33% 转化）证明进入门槛的降低比收益承诺更有效（命题五）。</li>
+</ol>
+<p style="margin-bottom:0"><b>因此，本研究的核心结论是：AI 平台开发者生态的治理，正在从"分配问题"迁移为"可见性问题"。</b>在 token 价格趋零、中间层毛利被压至负值的市场结构下（命题一，智谱云端毛利率 −0.4%），平台已无法从开发者的交易中获取有意义的抽成收入；它真正稀缺且可垄断的资源，是<b>用户注意力的分配权</b>。这解释了为何 OpenAI 在 2026 年转向广告（CPM $60 起、6 周年化超 1 亿美元）、百度以搜索流量池换取开发者定价权让渡、Poe 以分发惩罚约束定价行为——<b>当中间层不再产生利润，平台的收益就必须从"交易的一个百分比"转向"注意力的直接货币化"</b>。开发者在这一结构中的位置，也相应地从"平台的付费客户"转变为"平台注意力供给链上的内容生产者"。</p>
+</div>
+
+<!-- ============ 4 ============ -->
+<h2 id="s4"><span class="num">A</span>附录 A：未公开指标清单与替代指标</h2>
+
+<table>
+<thead><tr><th style="width:130px">平台</th><th style="width:330px">未公开指标 <span class="s0">⊘</span></th><th>可用替代指标</th></tr></thead>
+<tbody>
+<tr><td class="plat">OpenAI</td><td>付费开发者数量；GPTs/Apps 总数；开发者收入总额与分布；API 收入绝对值；ACP 具体费率；Apps 分成比例（<b>官方文档中根本不存在该条款</b>）</td><td>企业客户 100 万家（上界）；API tokens/分钟增长（60 亿→150 亿，5 个月 2.5×）；企业收入占比 &gt;40%</td></tr>
+<tr><td class="plat">Anthropic</td><td>API 注册/付费开发者数量；官方收入结构占比；token 处理量；Claude Marketplace 抽成比例</td><td>年消费 &gt;$10 万客户增 7×、&gt;$100 万客户 &gt;500 家；Claude Code run-rate &gt;$25 亿；4% GitHub 公开 commits</td></tr>
+<tr><td class="plat">DeepSeek</td><td>开发者数量；付费开发者；企业客户数；API 收入；日均 token 处理量；云厂商托管分成条款</td><td>545% 理论成本利润率（口径受限）；一体机厂商 60+；政府采购中标金额（399 万元 / 172 万元）；HF 衍生模型数</td></tr>
+<tr><td class="plat">阿里百炼</td><td>客户数绝对值；日均 token 绝对值；开发者收入；RAG/Agent 独立计费单位；上架模型总数；夸克第三方分成机制</td><td>客户数 +8×；token 需求 +10×；AI 产品收入 89.71 亿元/季；AI 模型与应用 ARR 80 亿元；Qwen 衍生模型 &gt;20 万</td></tr>
+<tr><td class="plat">火山/扣子</td><td><b>扣子模板商店分账比例</b>；Bot 总数官方口径；开发者收入；开发者激励金额；方舟统一免费额度；coze.com 国际版机制</td><td>日均 180 万亿 tokens（时间序列完整）；重度客户 140 家；扣子月活开发者 300 万；IDC 份额 49.5%</td></tr>
+<tr><td class="plat">百度千帆</td><td>文心智能体平台 2025–2026 最新开发者/智能体数；千帆 token 绝对值；广告/线索分成比例；开发者收入；ERNIE 开源下载量</td><td>千帆客户 46 万 / 智能体 130 万；token +7×；IDC 大模型解决方案份额 16.6%；中标 48 项目 5.1 亿元</td></tr>
+<tr><td class="plat">智谱</td><td>开发者分成总收入；智能体分发抽成明细；私有化中标完整清单；GLM 的 HF 下载量</td><td><b>招股书全套</b>：分部收入与毛利率、机构客户数、日均 token、付费开发者 15 万/ARR 1 亿元。可交叉验证人均年付费约 667 元</td></tr>
+<tr><td class="plat">Poe</td><td><b>分成比例</b>；累计支付创作者总额；创作者数量；bot 数量；订阅用户数；MAU；Poe ARR</td><td>"头部创作者年入数十万美元"；a16z $75M 中"多数用于支付创作者"；积分参考单价 $30/百万点（可用于反推隐含抽成，但需创作者侧数据）</td></tr>
+<tr><td class="plat">Character.AI</td><td>角色数；创作者数；MAU；营收</td><td>无（官方仅 "millions of Characters"）</td></tr>
+</tbody>
+</table>
+
+<!-- ============ 5 ============ -->
+<h2 id="s5"><span class="num">B</span>附录 B：被证伪与剔除的流传数据</h2>
+
+<p>下列数字在检索中反复出现，但<b>相互矛盾、无官方出处，或与官方文档直接冲突</b>，判定为内容农场 / SEO 站点生成，<b>本报告不予采信</b>。列出以供后续研究避坑。</p>
+
+<table>
+<thead><tr><th style="width:230px">流传说法</th><th style="width:200px">出现来源</th><th>剔除理由</th></tr></thead>
+<tbody>
+<tr><td>OpenAI ChatGPT 应用商店"<b>收入分成仅 15%</b>"</td><td>aiposthub 等聚合站</td><td>与官方《Apps SDK — Monetization》文档直接冲突：官方推荐 external checkout，明确"payment, billing, taxes, refunds, and compliance are handled entirely on your domain"，<b>全文无任何分成比例条款</b></td></tr>
+<tr><td>Anthropic "Skills Marketplace 抽成 15%""插件分成 70%""Notion 向 Anthropic 分成 30%、年贡献 6 亿美元"</td><td>500k.io、pravinkumar.co、xiangtan001.com 等</td><td>彼此矛盾、均无官方出处，且与 Anthropic 官方文档及 PM 公开表态（"There are no revenue-sharing arrangements at this time"）直接冲突</td></tr>
+<tr><td>Anthropic "280 万注册开发者""12.7 万插件"</td><td>内容农场</td><td>Anthropic 从未公布任何开发者数量</td></tr>
+<tr><td>扣子"创作者留存 70–80%""插件调用分成 70%""按 DAU 分润""平台激励现金奖励"</td><td>tzjp.cn、cndba.cn、aiqicha 等</td><td>官方《模板收入结算》文档仅表述为"预设的比例"，从未给出数值</td></tr>
+<tr><td>百炼"可发布到 Agent 广场获分润""企业认证后 API 收费自动分账"</td><td>cndba.cn 等 SEO 站</td><td>未获官方证实；官方目前仅有"AI 打赏"（金额全额归开发者）</td></tr>
+<tr><td>Poe "ARR $80M / 50M MAU / 100 万 bot"</td><td>AI 生成的二手汇编站</td><td>无官方或一线媒体来源；Poe 官方口径仅 "millions of users"</td></tr>
+<tr><td>Character.AI "2000 万用户 / 1800 万角色 / 2024 年营收 $32.2M"</td><td>二手汇编</td><td>未见官方原始披露</td></tr>
+<tr><td>DeepSeek "2026-06 融资 &gt;$74 亿、估值 &gt;$500 亿"</td><td>openllmstack 等二手转述（称引自 WSJ）</td><td>未取得 WSJ 原文，二手转述链条不完整</td></tr>
+<tr><td>智谱"深圳智慧城市项目 9,390 万元"</td><td>招投标媒体</td><td>未核到中标公告原始 URL，暂不作为事实引用</td></tr>
+<tr><td>浙商证券"2025–2027 一体机需求 15/39/72 万台，市场空间 1236/2937/5208 亿元"</td><td>券商测算</td><td><b>属预测而非已实现数据</b>，不得作为事实引用</td></tr>
+<tr><td>阿里"MCP 广场 7,500+ MCP 服务、累计调用 9 亿次"</td><td>雪球用户长文</td><td>非官方口径，存疑</td></tr>
+<tr><td>百炼定价页 qwen-max "0.02/0.06 元/千 token"</td><td>aliyun.com/product/bailian/pricing 展示页</td><td>与帮助中心现行口径（0.0024/0.0096）不一致，疑为陈旧展示；<b>建议以控制台实际计费为准</b></td></tr>
+<tr><td>火山 volcengine.com/docs/84129/1544106 页面给出的 3–6 倍价格</td><td>火山官网另一页面</td><td>与主定价页冲突，疑为国际站或不同部署口径；<b>以控制台实际计费为准</b></td></tr>
+</tbody>
+</table>
+
+<div class="note">
+<b>方法论提示</b>：本研究检索中发现，AI 平台商业条款是内容农场重灾区——"XX 平台分成 70%"类文章大量存在且互相引用，形成看似多源实为单源的伪交叉验证。<b>可靠的判定标准是：能否在平台自有域名（docs./help./developers. 子域）下找到原文表述</b>。凡只在第三方站点出现的百分比数字，一律不予采信。
+</div>
+
+<h2 id="s6"><span class="num">C</span>附录 C：主要一手来源索引（超链接）</h2>
+
+<p>下列为报告中逐条引用的官方一手来源（平台 docs./help./developers. 子域及官方公告）。每条均已转为可点击超链接，便于回溯核验。</p>
+
+<div class="src">
+<p><b>OpenAI</b></p>
+<ul>
+<li>Pricing：<a href="https://developers.openai.com/docs/pricing">https://developers.openai.com/docs/pricing</a></li>
+<li>Apps SDK Monetization：<a href="https://developers.openai.com/apps-sdk/build/monetization">https://developers.openai.com/apps-sdk/build/monetization</a></li>
+<li>Introducing apps in ChatGPT（2025-10-06）：<a href="https://openai.com/index/introducing-apps-in-chatgpt/">https://openai.com/index/introducing-apps-in-chatgpt/</a></li>
+<li>Buy it in ChatGPT / ACP（2025-09-29）：<a href="https://openai.com/index/buy-it-in-chatgpt/">https://openai.com/index/buy-it-in-chatgpt/</a></li>
+<li>1 million businesses（2025-11-05）：<a href="https://openai.com/index/1-million-businesses-putting-ai-to-work/">https://openai.com/index/1-million-businesses-putting-ai-to-work/</a></li>
+<li>Monetizing your GPT FAQ：<a href="https://help.openai.com/en/articles/9119255-monetizing-your-gpt-faq">https://help.openai.com/en/articles/9119255-monetizing-your-gpt-faq</a></li>
+</ul>
+
+<p><b>Anthropic</b></p>
+<ul>
+<li>Pricing：<a href="https://docs.anthropic.com/en/docs/about-claude/pricing">https://docs.anthropic.com/en/docs/about-claude/pricing</a> ；<a href="https://claude.com/pricing">https://claude.com/pricing</a></li>
+<li>Commercial Terms（2025-06-17 生效）：<a href="https://www.anthropic.com/legal/commercial-terms">https://www.anthropic.com/legal/commercial-terms</a></li>
+<li>Plugin marketplaces：<a href="https://docs.anthropic.com/en/docs/claude-code/plugin-marketplaces">https://docs.anthropic.com/en/docs/claude-code/plugin-marketplaces</a></li>
+<li>Claude Marketplace：<a href="https://claude.com/platform/marketplace">https://claude.com/platform/marketplace</a></li>
+<li>Connectors overview：<a href="https://claude.com/docs/connectors/overview">https://claude.com/docs/connectors/overview</a></li>
+</ul>
+
+<p><b>DeepSeek</b></p>
+<ul>
+<li>Pricing：<a href="https://api-docs.deepseek.com/zh-cn/quick_start/pricing">https://api-docs.deepseek.com/zh-cn/quick_start/pricing</a></li>
+<li>R1 开源公告（2025-01-20）：<a href="https://api-docs.deepseek.com/zh-cn/news/news250120">https://api-docs.deepseek.com/zh-cn/news/news250120</a></li>
+<li>License FAQ：<a href="https://deepseeklicense.github.io/index-CN.html">https://deepseeklicense.github.io/index-CN.html</a></li>
+<li>中国政法大学中标公告（2026-03-24）：<a href="https://www.ccgp.gov.cn/cggg/zygg/zbgg/202603/t20260324_26309116.htm">https://www.ccgp.gov.cn/cggg/zygg/zbgg/202603/t20260324_26309116.htm</a></li>
+</ul>
+
+<p><b>阿里云百炼</b></p>
+<ul>
+<li>定价：<a href="https://www.aliyun.com/product/bailian/pricing">https://www.aliyun.com/product/bailian/pricing</a></li>
+<li>模型训练与部署计费（2026-07-16 更新）：<a href="https://help.aliyun.com/zh/model-studio/model-training-and-deployment-billing">https://help.aliyun.com/zh/model-studio/model-training-and-deployment-billing</a></li>
+<li>阿里巴巴集团业绩公告（2026-05-13）：<a href="https://www.alibabagroup.com/document-1991364841188622336">https://www.alibabagroup.com/document-1991364841188622336</a></li>
+</ul>
+
+<p><b>火山引擎 / 扣子</b></p>
+<ul>
+<li>模型服务价格：<a href="https://www.volcengine.com/docs/82379/1099320">https://www.volcengine.com/docs/82379/1099320</a></li>
+<li>HiAgent 计费：<a href="https://www.volcengine.com/docs/82379/1805689">https://www.volcengine.com/docs/82379/1805689</a></li>
+<li>扣子《模板收入结算》：<a href="https://docs.coze.cn/guides/template_revenue_settlement">https://docs.coze.cn/guides/template_revenue_settlement</a></li>
+</ul>
+
+<p><b>百度千帆</b></p>
+<ul>
+<li>定价：<a href="https://cloud.baidu.com/doc/qianfan-docs/s/Jm8r1826a">https://cloud.baidu.com/doc/qianfan-docs/s/Jm8r1826a</a></li>
+<li>计费文档：<a href="https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya">https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya</a></li>
+<li>云市场入驻协议：<a href="https://cloud.baidu.com/doc/qianfan-market/s/bln1d5nqw">https://cloud.baidu.com/doc/qianfan-market/s/bln1d5nqw</a></li>
+<li>智能体广告分成：<a href="https://agents.baidu.com/docs/develop/component/adLead/ad_division/">https://agents.baidu.com/docs/develop/component/adLead/ad_division/</a></li>
+<li>智能体线索转化：<a href="https://agents.baidu.com/docs/develop/component/adLead/lead_conversion/">https://agents.baidu.com/docs/develop/component/adLead/lead_conversion/</a></li>
+</ul>
+
+<p><b>智谱</b></p>
+<ul>
+<li>定价：<a href="https://bigmodel.cn/pricing">https://bigmodel.cn/pricing</a> ；<a href="https://open.bigmodel.cn/pricing">https://open.bigmodel.cn/pricing</a></li>
+<li>招股书相关报道（证券时报）：<a href="https://www.stcn.com/article/detail/3565261.html">https://www.stcn.com/article/detail/3565261.html</a> ；<a href="https://stcn.com/article/detail/3579827.html">https://stcn.com/article/detail/3579827.html</a> ；<a href="https://stcn.com/article/detail/3580246.html">https://stcn.com/article/detail/3580246.html</a></li>
+</ul>
+
+<p><b>Poe</b></p>
+<ul>
+<li>Creator Monetization FAQs：<a href="https://help.poe.com/hc/en-us/articles/21921312368020">https://help.poe.com/hc/en-us/articles/21921312368020</a></li>
+<li>How We Cover Your Costs：<a href="https://creator.poe.com/docs/how-we-cover-your-costs">https://creator.poe.com/docs/how-we-cover-your-costs</a></li>
+<li>Bot Monetization API：<a href="https://creator.poe.com/docs/server-bots/poe-bot-monetization-api-documentation">https://creator.poe.com/docs/server-bots/poe-bot-monetization-api-documentation</a></li>
+<li>Poe FAQs（积分）：<a href="https://help.poe.com/hc/en-us/articles/19944206309524">https://help.poe.com/hc/en-us/articles/19944206309524</a></li>
+<li>Introducing Script Bots（2025-11-21）：<a href="https://poe.com/blog/introducing-script-bots">https://poe.com/blog/introducing-script-bots</a></li>
+<li>Creator monetization（2023-10-28）：<a href="https://poe.com/blog/introducing-creator-monetization-for-poe">https://poe.com/blog/introducing-creator-monetization-for-poe</a></li>
+<li>Price per message（2024-04-08）：<a href="https://poe.com/blog/new-on-poe-creator-monetization-via-price-per-message">https://poe.com/blog/new-on-poe-creator-monetization-via-price-per-message</a></li>
+</ul>
+
+<p><b>对照组</b></p>
+<ul>
+<li>OpenRouter FAQ：<a href="https://openrouter.ai/docs/faq">https://openrouter.ai/docs/faq</a></li>
+<li>Hugging Face Pricing：<a href="https://huggingface.co/pricing">https://huggingface.co/pricing</a></li>
+<li>HF Inference Providers Pricing：<a href="https://huggingface.co/docs/inference-providers/pricing">https://huggingface.co/docs/inference-providers/pricing</a></li>
+<li>Character.AI Creator Bundle（2026-06-17）：<a href="https://blog.character.ai/creator-bundle/">https://blog.character.ai/creator-bundle/</a></li>
+<li>Character.AI Charms：<a href="https://blog.character.ai/introducing-charms/">https://blog.character.ai/introducing-charms/</a></li>
+</ul>
+</div>
+
+<footer class="doc">
+  <p><b>本报告的三条硬性纪律</b>：① 每项数据标注来源等级与日期；② 严格区分注册开发者 / 付费开发者 / 企业客户 / 消费者用户 / 应用数量 / 智能体数量 / Token 调用量七类口径；③ 对"未公开"指标明确标注 <span class="s0">⊘</span>，不据传闻推算。</p>
+  <p>检索截止：2026-08-04。所有平台定价、条款与生态数据均具时效性，跨期引用需重新核验。招股书、财报与政府采购公告为一手；媒体转述的招股书数据已尽可能回溯至原始口径（如智谱云端部署收入，媒体存在"4.85 亿元"与"4,850 万元"的单位错误，本报告采用与占比自洽的后者）。</p>
+</footer>
+
+</main>
+
+</div>
+<div class="reading-tools" aria-label="阅读工具">
+  <button id="topBtn" type="button" hidden>返回顶部</button>
+</div>
+<script>
+(() => {
+  const progress = document.getElementById('progress');
+  const topBtn = document.getElementById('topBtn');
+  const updateReadingState = () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = `${max > 0 ? (window.scrollY / max) * 100 : 0}%`;
+    topBtn.hidden = window.scrollY < 500;
+  };
+  window.addEventListener('scroll', updateReadingState, {passive:true});
+  topBtn.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+  updateReadingState();
+})();
+</script>
+</body>
+</html>
