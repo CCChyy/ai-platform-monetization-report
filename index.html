@@ -150,7 +150,10 @@ table{border-collapse:collapse;font-size:13.5px;line-height:1.6}th,td{border:0;b
 @media(max-width:920px){.report-toc{display:none!important}.report-reader{width:auto!important;max-width:760px!important;margin:0 auto!important;padding:44px 24px 90px!important}}
 @media(max-width:680px){h1{font-size:27px!important}.two{grid-template-columns:1fr}.report-reader{padding:38px 20px 90px!important}}
 @media print{.report-toc{display:none!important}.report-reader{width:auto!important;max-width:none!important;margin:0!important;padding:0!important}}
-header.doc{padding-bottom:24px}.subtitle{font-size:15px;color:#666a72}.author{font-size:14px;font-weight:400}.meta{font-size:12px}.summary-grid{grid-template-columns:1fr}.summary-item{padding:12px 0}.card>.hd{padding:16px 0}.card>.bd{padding:16px 0}.tbl-scroll{border:1px solid #e3e3e3;max-width:100%}h2{border-bottom:0;padding-top:6px}.card>.hd .name{font-size:23px}</style></head>
+header.doc{padding-bottom:24px}.subtitle{font-size:15px;color:#666a72}.author{font-size:14px;font-weight:400}.meta{font-size:12px}.summary-grid{grid-template-columns:1fr}.summary-item{padding:12px 0}.card>.hd{padding:16px 0}.card>.bd{padding:16px 0}.tbl-scroll{border:1px solid #e3e3e3;max-width:100%}h2{border-bottom:0;padding-top:6px}.card>.hd .name{font-size:23px}
+/* This report contains comparison tables, so its desktop reading column is intentionally wider. */
+@media(min-width:1100px){.report-reader{width:920px!important;max-width:calc(100vw - 260px)!important}.report-reader main>section>p,.report-reader main>section>h2,.report-reader main>section>h3,.report-reader main>section>h4,.report-reader main>section>ul,.report-reader main>section>ol,.report-reader .card>.bd>p,.report-reader footer.doc{max-width:900px!important}}
+</style></head>
 <body>
 <div id="progress" aria-hidden="true"></div>
 <a class="skip-link" href="#content">跳转到正文</a>
@@ -175,15 +178,6 @@ header.doc{padding-bottom:24px}.subtitle{font-size:15px;color:#666a72}.author{fo
     <li><a href="#s1">第一部分：横向比较总表</a></li>
     <li><a href="#s1b">商业模式五分类归属表</a></li>
     <li><a href="#s2">第二部分：分平台数据卡</a></li>
-    <li><a href="#p-openai">2.1 OpenAI</a></li>
-    <li><a href="#p-anthropic">2.2 Anthropic</a></li>
-    <li><a href="#p-deepseek">2.3 DeepSeek</a></li>
-    <li><a href="#p-bailian">2.4 阿里云百炼 / 通义千问</a></li>
-    <li><a href="#p-ark">2.5 火山方舟 / 豆包 / 扣子</a></li>
-    <li><a href="#p-qianfan">2.6 百度千帆 / 文心</a></li>
-    <li><a href="#p-zhipu">2.7 智谱 BigModel</a></li>
-    <li><a href="#p-poe">2.8 Poe</a></li>
-    <li><a href="#p-ctrl">2.9 对照组：OpenRouter / Hugging Face / Character.AI</a></li>
     <li><a href="#s3">第三部分：学术化总结</a></li>
     <li><a href="#s4">附录 A：未公开指标清单与替代指标</a></li>
     <li><a href="#s5">附录 B：被证伪与剔除的流传数据</a></li>
